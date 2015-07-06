@@ -5,6 +5,8 @@ Version: 0.1.0
 Author: Leo Lu
 Maintainer: Leo Lu <leo@eolembrain.com>
 Description: EOLembrain Data Manipulation Toolbox
-License: GPL (<=0.3)
+License: GPL (>=0.3)
 LazyData: TRUE
-Depends: plyr, dplyr, lazyeval, readr, stringr, tools, scales
+Depends: plyr, dplyr, lazyeval, readr, stringr, tools, 
+         scales, magrittr, sjmisc, sampling, openxlsx,
+         R (>= 3.1.2)
