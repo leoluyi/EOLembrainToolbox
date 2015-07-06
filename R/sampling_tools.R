@@ -1,5 +1,5 @@
 ## -- update package ----
-if(packageDescription("openxlsx")$Version < "2.3.11") {
+if(packageDescription("openxlsx")$Version < "3.0.0") {
   devtools::install_github("awalker89/openxlsx")
 }
 
