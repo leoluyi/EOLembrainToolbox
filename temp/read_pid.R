@@ -1,4 +1,4 @@
-read_pid <- function(n, path = "Pidä¸Šå‚³_.xls") {
+read_pid <- function(n, path = "Pid¤W¶Ç_.xls") {
   
   path <- check_file(path)
   ext <- tolower(tools::file_ext(path))
@@ -6,7 +6,7 @@ read_pid <- function(n, path = "Pidä¸Šå‚³_.xls") {
   aa <- paste0("P", formatC(sample(300000, n, replace = FALSE), 
                       width = 11, format = "d", flag = "0"))
   
-  print("è«‹ç”¨ã€Œå¤–éƒ¨è³‡æ–™åŒ¯å…¥ã€=>ã€Œå¤–éƒ¨èª¿æŸ¥é€£çµåŒ¯å…¥ã€ä¸Šå‚³Pid")
+  print("½Ð¥Î¡u¥~³¡¸ê®Æ¶×¤J¡v=>¡u¥~³¡½Õ¬d³sµ²¶×¤J¡v¤W¶ÇPid")
 }
 
 write_pid
