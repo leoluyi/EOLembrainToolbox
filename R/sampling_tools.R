@@ -358,7 +358,7 @@ write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
   
   openxlsx::writeData(wb, "backup", x = tempData_backup,
                       rowNames = FALSE, keepNA=FALSE)
-  openxlsx::wsaveWorkbook(wb, file = outputfileName, overwrite = TRUE)
+  openxlsx::saveWorkbook(wb, file = outputfileName, overwrite = TRUE)
 }
 
 
