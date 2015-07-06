@@ -1,5 +1,5 @@
 read_panel_id <- function(
-  path = file.path(path.package("EOLembrainToolbox"), "data/panel_2015-06-08.csv"))
+  path = "https://github.com/leoluyi/EOLembrainToolbox/raw/master/data/panel_2015-06-08.csv")
 {
 
   # check extension: csv
