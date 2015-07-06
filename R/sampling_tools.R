@@ -260,8 +260,7 @@ strata.sample.ID <- function (.data, .strataCrossN_flat, .namesList,
   #                            !(Q1R==2 && Q2R==2 && Q3R==4))
   # 實抽樣本 <- 實抽樣本[實抽樣本!=0]
   
-  library(dplyr)
-  library(sampling)
+  ID_var_name <- ID_var_name[[1]]
   
   if(anyDuplicated(.data[[ID_var_name]])) {
     stop(c("抽取之ID有重複: ", "\n",
@@ -310,14 +309,15 @@ strata.sample.ID <- function (.data, .strataCrossN_flat, .namesList,
   
   # 抽出之ID
   ID_Output <- data.reordered %>%
-    strata(stratanames=.vars, size=N_vector, 
+    sampling::strata(stratanames=.vars, size=N_vector, 
            method, .data[[pik]]) %>%
     sampling::getdata(data.reordered,.) %>%
-    dplyr::select_(ID_var_name) %>% unlist %>% unname
+    `[[`(ID_var_name) %>% unlist %>% unname
+  
+  cat("共", length(ID_Output), "個ID被抽出\n")
   
   return(ID_Output)
 }
-
 
 
 write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
