@@ -1,5 +1,5 @@
-\name{OutEater}
-\alias{OutEater}
+\name{read_panel_id}
+\alias{read_panel_id}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 hi hi
@@ -8,7 +8,7 @@ hi hi
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-OutEater(x)
+read_panel_id(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

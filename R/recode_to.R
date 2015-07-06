@@ -56,18 +56,18 @@ print.case <- function(x, ...) {
 }
 
 # Examples ---------------------------------------------------------------------
-
-recode_to(mtcars,
-  mpg < 20 ~ "a",
-  vs == 1  ~ "b"
-)
-recode_to(mtcars,
-  mpg < 20 ~ "a",
-  vs == 1  ~ "b",
-           ~ "c"
-)
-recode_to(mtcars,
-  mpg < 20 ~ mpg,
-           ~ mpg + 100
-)
-
+# 
+# recode_to(mtcars,
+#   mpg < 20 ~ "a",
+#   vs == 1  ~ "b"
+# )
+# recode_to(mtcars,
+#   mpg < 20 ~ "a",
+#   vs == 1  ~ "b",
+#            ~ "c"
+# )
+# recode_to(mtcars,
+#   mpg < 20 ~ mpg,
+#            ~ mpg + 100
+# )
+# 
