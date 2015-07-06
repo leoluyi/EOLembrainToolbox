@@ -57,7 +57,3 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   cat(paste0("'", path, "'"), "已匯出\n* 請用excel'另存'成.xls檔 =>「外部調查連結匯入」上傳pid")
 }
 
-ids <- paste0("I", stringr::str_pad(sample(500000, 2000, replace = FALSE), 
-                                    11, pad = "0"))
-
-gen_fake_id(ids, path = "pid上傳_xxx.xlsx", "p",.survey_id = "1234", .outurl="df")
