@@ -344,9 +344,9 @@ write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
   # Âà¬°data.frame
   is_tbl <- inherits(.data, "tbl")
   if(!is.data.frame(.data)) {
-    .data <- dplyr:::as_data_frame(.data)
+    .data <- dplyr::as_data_frame(.data)
   } else if (is_tbl) {
-    .data <- dplyr:::tbl_df(.data)
+    .data <- dplyr::tbl_df(.data)
   }
   
   wb <- openxlsx::createWorkbook(
