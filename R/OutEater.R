@@ -1,0 +1,269 @@
+# === instal packages needed ===
+list.of.packages <-
+  c("plyr", "dplyr", "lazyeval", "readr","stringr","tools", "scales")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+rm(new.packages, list.of.packages)
+
+
+read_panel_id <- function(path="data/panel_2015-06-08.csv") {
+
+  suppressPackageStartupMessages(library(dplyr))
+
+  # check extension: csv
+  if(tolower(tools::file_ext(path)) != "csv") {
+    stop("The extention of panel id file must be .csv", call. = FALSE)
+  }
+
+  ## read original panel file
+  panel <- readr::read_csv(path,
+                           col_names = TRUE,
+                           col_types = paste0(rep("c", 8), collapse = ""),
+                           na = "")
+
+  panel[,c(2, 4:length(panel))] <-
+    lapply(panel[c(2, 4:length(panel))], as.factor) %>%
+    as_data_frame
+
+  panel <- panel %>%
+    mutate(age = as.numeric(age)) %>%
+    mutate(aream = as.numeric(aream)) %>%
+    mutate(aream_name = factor(aream_name))
+
+  #   area_table <- panel %>%
+  #     select(aream, aream_name) %>%
+  #     distinct %>%
+  #     arrange(aream)
+
+  ## Changing the order of levels of a factor
+
+  levels(panel$aream_name) <-
+    list(
+      "基隆市" = "基隆市",
+      "臺北市" = "臺北市",
+      "新北市" = "新北市",
+      "桃園市" = "桃園縣",
+      "新竹縣" = "新竹縣",
+      "新竹市" = "新竹市",
+      "苗栗縣" = "苗栗縣",
+      "臺中市" = "臺中市(原臺中市)",
+      "臺中市" = "臺中市(原臺中縣)",
+      "彰化縣" = "彰化縣",
+      "南投縣" = "南投縣",
+      "雲林縣" = "雲林縣",
+      "嘉義縣" = "嘉義縣",
+      "嘉義市" = "嘉義市",
+      "臺南市" = "臺南市(原臺南市)",
+      "臺南市" = "臺南市(原臺南縣)",
+      "高雄市" = "高雄市(原高雄縣)",
+      "高雄市" = "高雄市(原高雄市)",
+      "屏東縣" = "屏東縣",
+      "宜蘭縣" = "宜蘭縣",
+      "花蓮縣" = "花蓮縣",
+      "臺東縣" = "臺東縣",
+      "澎湖縣" = "澎湖縣",
+      "金門縣" = "金門縣",
+      "連江縣" = "連江縣",
+      "南海諸島" = "南海諸島",
+      "釣魚臺列嶼" = "釣魚臺列嶼")
+
+  panel <- panel %>%
+    mutate(aream = as.numeric(aream_name))
+
+  panel
+}
+
+
+
+
+sample_N <- function(.data, .n, .id_var="Panel_id",
+                     sent_id = NULL,
+                     finished_id = NULL,
+                     include_sent = FALSE,
+                     show = TRUE) {
+
+  suppressPackageStartupMessages(library(dplyr))
+
+  if(.n == 0) {
+    if(show == TRUE) cat(paste0("(沒有抽樣)", "\n"))
+    return()
+  }
+
+  if(length(finished_id) == 0 & include_sent == TRUE)
+    stop("When `include_sent` set to TRUE, length of `finished_id` must not be 0.",
+         call. = FALSE)
+
+  if(include_sent == FALSE) {
+    exclude_id <- c(sent_id, finished_id)
+  } else exclude_id <- finished_id
+
+  ## exclude id
+  filter_criteria <- lazyeval::interp(~ ! id_var %in% exclude_id,
+                                      id_var = as.name(.id_var))
+  .data <- .data %>% filter_(filter_criteria)
+
+  if(nrow(.data) == 0) {
+    if(show == TRUE) cat(paste0("(此條件已無會員)", "\n"))
+    return()
+  }
+
+  include_sent_info <- NULL   # 包含已發送訊息
+  if(include_sent == TRUE) include_sent_info <- "(含已發送)"
+
+  less_info <- NULL   # 缺額訊息
+  if(.n > nrow(.data)) {
+    .n <- nrow(.data)
+    less_info <- "(缺額)"
+  }
+
+  sample_id <- .data %>% # exclude id
+    sample_n(.n, replace = FALSE) %>%
+    dplyr::select_(.id_var) %>% unlist %>% unname
+
+  if(show == TRUE) {
+    cat(paste0(scales::comma(length(sample_id)),
+               "\t個ID被抽出",
+               include_sent_info,
+               less_info,
+               "\n"))
+  }
+
+  sample_id
+}
+
+
+
+sampling_outeater <- function (panel_id=panel_id_active, sampleN,
+                               sent_id = NULL,
+                               finished_id = NULL) {
+  suppressPackageStartupMessages(library(dplyr))
+
+  cat("台北:\t")
+  id_TP <- panel_id %>%
+    filter(aream_name %in% c("臺北市")) %>%           # city
+    filter(gender %in% sampleN$TP[["gender"]]) %>%    # gender
+    filter(age %in% sampleN$TP[["age"]]) %>%          # age
+    sample_N(sampleN$TP$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$TP$include_sent,
+             show = T)    # Sample N id
+
+  cat("新北:\t")
+  id_NewTP <- panel_id %>%
+    filter(aream_name %in% c("新北市")) %>%            # city
+    filter(gender %in% sampleN$NewTP[["gender"]]) %>% # gender
+    filter(age %in% sampleN$NewTP[["age"]]) %>%        # age
+    sample_N(sampleN$NewTP$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$NewTP$include_sent,
+             show = T)     # Sample N id
+
+  cat("基宜:\t")
+  id_KL_YL <- panel_id %>%
+    filter(aream_name %in% c("基隆市", "宜蘭縣")) %>% # city
+    filter(gender %in% sampleN$KL_YL[["gender"]]) %>%    # gender
+    filter(age %in% sampleN$KL_YL[["age"]]) %>%       # age
+    sample_N(sampleN$KL_YL$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$KL_YL$include_sent,
+             show = T)   # Sample N id
+
+  cat("桃竹苗:\t")
+  id_TY_XC_ML <- panel_id %>%
+    filter(aream_name %in% c("桃園市", "新竹市",
+                             "新竹縣", "苗栗縣")) %>%  # city
+    filter(gender %in% sampleN$TY_XC_ML[["gender"]]) %>%     # gender
+    filter(age %in% sampleN$TY_XC_ML[["age"]]) %>%     # age
+    sample_N(sampleN$TY_XC_ML$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$TY_XC_ML$include_sent,
+             show = T)   # Sample N id
+
+  cat("中彰投:\t")
+  id_TCH_CHW_NT <- panel_id %>%
+    filter(aream_name %in% c("臺中市", "彰化縣", "南投縣")) %>%  # city
+    filter(gender %in% sampleN$TCH_CHW_NT[["gender"]]) %>%     # gender
+    filter(age %in% sampleN$TCH_CHW_NT[["age"]]) %>%   # age
+    sample_N(sampleN$TCH_CHW_NT$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$TCH_CHW_NT$include_sent,
+             show = T)  # Sample N id
+
+  cat("雲嘉南:\t")
+  id_YL_CHY_TN <- panel_id %>%
+    filter(aream_name %in% c("雲林縣", "嘉義市", "嘉義縣","臺南市")) %>% # city
+    filter(gender %in% sampleN$YL_CHY_TN[["gender"]]) %>%    # gender
+    filter(age %in% sampleN$YL_CHY_TN[["age"]]) %>%   # age
+    sample_N(sampleN$YL_CHY_TN$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$YL_CHY_TN$include_sent,
+             show = T)    # Sample N id
+
+  cat("高屏:\t")
+  id_KS_PT <- panel_id %>%
+    filter(aream_name %in% c("高雄市", "屏東縣")) %>% # city
+    filter(gender %in% sampleN$KS_PT[["gender"]]) %>%    # gender
+    filter(age %in% sampleN$KS_PT[["age"]]) %>%       # age
+    sample_N(sampleN$KS_PT$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$KS_PT$include_sent,
+             show = T)     # Sample N id
+
+  cat("花東:\t")
+  id_HWL_TD <- panel_id %>%
+    filter(aream_name %in% c("花蓮縣", "臺東縣")) %>% # city
+    filter(gender %in% sampleN$HWL_TD[["gender"]]) %>%    # gender
+    filter(age %in% sampleN$HWL_TD[["age"]]) %>%      # age
+    sample_N(sampleN$HWL_TD$N,
+             sent_id = sent_id,
+             finished_id = finished_id,
+             include_sent = sampleN$HWL_TD$include_sent,
+             show = T)    # Sample N id
+
+  id_output <- c(id_TP,
+                 id_NewTP,
+                 id_KL_YL,
+                 id_TY_XC_ML,
+                 id_TCH_CHW_NT,
+                 id_YL_CHY_TN,
+                 id_KS_PT,
+                 id_HWL_TD)
+}
+
+
+n_sent_id <- function (sent_id_path, date_from=NULL, date_to=NULL) {
+  suppressPackageStartupMessages(library(dplyr))
+
+  sent_id_path <- normalizePath(sent_id_path)
+
+  if(!is.null(date_from) & !is.null(date_to)) {
+    time_interval <- seq(as.Date(date_from), as.Date(date_to), "day") %>%
+      as.character %>%
+      paste0(collapse="|")
+
+    list.files(path = sent_id_path,
+               pattern = time_interval, full.names=TRUE) %>%
+      plyr::llply(readr::read_table,
+                  col_names = F,
+                  col_types = "c") %>%
+      unlist %>% unname %>% length %>% unique %>%
+      cat(date_from, "至", date_to, "期間共發送了\n", ., "個ID")
+  } else {
+    list.files(path = sent_id_path,
+               recursive = TRUE,
+               include.dirs = FALSE,
+               full.names=TRUE) %>%  # 路徑
+      plyr::llply(readr::read_table,
+                  col_names = F,
+                  col_types = "c") %>%
+      unlist %>% unname %>% length %>% unique %>%
+      cat(sent_id_path, "\n資料夾中共發送了\n", ., "個ID")
+  }
+}
