@@ -1,14 +1,4 @@
-# === instal packages needed ===
-list.of.packages <-
-  c("plyr", "dplyr", "lazyeval", "readr","stringr","tools", "scales")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-rm(new.packages, list.of.packages)
-
-
 read_panel_id <- function(path="data/panel_2015-06-08.csv") {
-
-  suppressPackageStartupMessages(library(dplyr))
 
   # check extension: csv
   if(tolower(tools::file_ext(path)) != "csv") {
@@ -82,8 +72,6 @@ sample_N <- function(.data, .n, .id_var="Panel_id",
                      include_sent = FALSE,
                      show = TRUE) {
 
-  suppressPackageStartupMessages(library(dplyr))
-
   if(.n == 0) {
     if(show == TRUE) cat(paste0("(沒有抽樣)", "\n"))
     return()
@@ -136,7 +124,6 @@ sample_N <- function(.data, .n, .id_var="Panel_id",
 sampling_outeater <- function (panel_id=panel_id_active, sampleN,
                                sent_id = NULL,
                                finished_id = NULL) {
-  suppressPackageStartupMessages(library(dplyr))
 
   cat("台北:\t")
   id_TP <- panel_id %>%
@@ -239,6 +226,7 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
 
 
 n_sent_id <- function (sent_id_path, date_from=NULL, date_to=NULL) {
+  
   suppressPackageStartupMessages(library(dplyr))
 
   sent_id_path <- normalizePath(sent_id_path)
