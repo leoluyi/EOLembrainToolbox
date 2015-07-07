@@ -1,7 +1,7 @@
 Package: EOLembrainToolbox
 Type: Package
 Title: EOLembrain Data Manipulation Toolbox
-Version: 0.1.0
+Version: 0.1.2
 Author: Leo Lu
 Maintainer: Leo Lu <leo@eolembrain.com>
 Description: EOLembrain Data Manipulation Toolbox
