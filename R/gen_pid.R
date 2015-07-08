@@ -101,10 +101,26 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
       "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
   
   
-  ## remove old file
-  if(file.exists(new_file_name) & original_file_exists)
-  {unlink(old_file_name)}
-  
-  
-}
 
+  if(file.exists(new_file_name) & original_file_exists) {
+    ## copy file
+    file.copy(from = old_file_name, 
+              to = paste0("./pid_log/", basename(old_file_name), ".temp"))
+    
+    ## remove old file
+    file.remove(old_file_name)
+    log_xlsx_match <- list.files("./pid_log", 
+                                 paste0("\\.backup$"), 
+                                 full.names = TRUE)
+
+    file.remove(log_xlsx_match)
+    cat(log_xlsx_match, sep = "\n", "removed.\n")
+  }
+  
+  ## rename
+  file.rename(from = list.files("./pid_log", "\\.temp$", full.names = TRUE),
+              to = gsub("\\.temp$", ".backup",
+                        list.files("./pid_log", "\\.temp$", full.names = TRUE))
+  )
+}
+get
