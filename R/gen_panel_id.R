@@ -257,3 +257,12 @@ n_sent_id <- function (sent_id_path, date_from=NULL, date_to=NULL) {
       cat(sent_id_path, "\n資料夾中共發送了\n", ., "個ID")
   }
 }
+
+
+write_table_date <- function(file_name) {
+  
+  new_name <- gsub(".txt$", paste0("_", Sys.Date(), ".txt", collapse=""), file_name)
+  write.table(new_name, quote=F, row.names=F, col.names=F)
+}
+
+

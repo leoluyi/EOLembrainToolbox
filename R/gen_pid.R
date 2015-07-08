@@ -12,7 +12,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   if(file.exists(path)) {
     old_data <- readxl::read_excel(path, 
                                    col_types = c("numeric",rep("text", 3)))
-    cat("匯入", nrow(old_data), "筆舊pid\n")
+    cat("匯入", nrow(old_data), "筆舊pid\n\n")
     
     old_pid <- stringr::str_extract(old_data$outurl,
                                     "[^=]+$")  # str after last "="
@@ -49,13 +49,14 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     if(file.exists(path)) {
       df <- as.data.frame(dplyr::bind_rows(old_data, df), stringsAsFactors=F)
     }
-  } else df <- old_data
+  } 
+  else df <- old_data
   
   openxlsx::write.xlsx(df, paste0(tools::file_path_sans_ext(path),".xlsx"), 
                        sheetName="sheet1")
   
-  cat("共匯出", length(df$panel_id)-n, "筆舊pid,",
-      n, "筆新pid", "\n\n")
+  cat("共匯出", length(df$panel_id)-n, "筆舊pid,", n, "筆新pid\n",
+      "。檔案中共包含",length(df$panel_id), "筆id\n")
   cat(paste0("'", path, "'"), "已匯出\n* 請用excel'另存'成.xls檔 =>「外部調查連結匯入」上傳pid")
 }
 
