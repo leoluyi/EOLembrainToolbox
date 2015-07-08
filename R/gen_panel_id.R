@@ -252,7 +252,7 @@ n_sent_id <- function (sent_id_path, date_from=NULL, date_to=NULL) {
                   col_names = F,
                   col_types = "c") %>%
       unlist %>% unname %>% length %>% unique %>%
-      cat(sent_id_path, "\n資料夾中共發送了\n", ., "個ID")
+      cat(sent_id_path, "\n資料夾中共發送了\n", ., "個ID\n")
   }
 }
 
@@ -261,6 +261,8 @@ write_table_date <- function(ids, file_name) {
   
   new_name <- gsub(".txt$", paste0("_", Sys.Date(), ".txt", collapse=""), file_name)
   write.table(ids, file = new_name, quote=F, row.names=F, col.names=F)
+  
+  cat("mail list 已匯出至\n", normalizePath(new_name), "\n")
 }
 
 

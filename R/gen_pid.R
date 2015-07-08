@@ -55,8 +55,9 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   openxlsx::write.xlsx(df, paste0(tools::file_path_sans_ext(path),".xlsx"), 
                        sheetName="sheet1")
   
-  cat("共匯出", length(df$panel_id)-n, "筆舊pid,", n, "筆新pid\n",
-      "。檔案中共包含",length(df$panel_id), "筆id\n")
-  cat(paste0("'", path, "'"), "已匯出\n* 請用excel'另存'成.xls檔 =>「外部調查連結匯入」上傳pid")
+  cat("共匯出", length(df$panel_id)-n, "筆舊pid，", n, "筆新pid\n",
+      "檔案中共包含",length(df$panel_id), "筆id\n")
+  cat("pid已匯出至 ", normalizePath(path), "\n",
+      "* 請用excel'另存'成.xls檔 =>「外部調查連結匯入」上傳pid\n")
 }
 
