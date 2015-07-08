@@ -1,26 +1,28 @@
-read_panel_id <- function(
-  path = "https://github.com/leoluyi/EOLembrainToolbox/raw/master/panel_data/panel_2015-06-08.csv")
-{
+read_panel_id <- function(path = "lib_path") {
+  
+  if(path == "lib_path") 
+    path <- system.file("extdata/panel_2015-06-08.csv", package = "EOLembrainToolbox")
   
   # check extension: csv
-  if(tolower(tools::file_ext(path)) != "csv") {
-    stop("The extention of panel id file must be .csv", call. = FALSE)
-  }
+  if(tolower(tools::file_ext(path)) != "csv") 
+    stop("the extention of panel id file must be .csv", call. = FALSE)
+  
   
   ## read original panel file
-  panel <- readr::read_csv(path,
-                           col_names = TRUE,
-                           col_types = paste0(rep("c", 8), collapse = ""),
-                           na = "")
+  panel <- readr::read_csv(
+    path,
+    col_names = TRUE,
+    col_types = paste0(rep("c", 8), collapse = ""),
+    na = "")
   
   panel[,c(2, 4:length(panel))] <-
     lapply(panel[c(2, 4:length(panel))], as.factor) %>%
-    as_data_frame
+    dplyr::as_data_frame
   
   panel <- panel %>%
-    mutate(age = as.numeric(age)) %>%
-    mutate(aream = as.numeric(aream)) %>%
-    mutate(aream_name = factor(aream_name))
+    dplyr::mutate(age = as.numeric(age),
+                  aream = as.numeric(aream),
+                  aream_name = factor(aream_name))
   
   #   area_table <- panel %>%
   #     select(aream, aream_name) %>%
@@ -60,7 +62,7 @@ read_panel_id <- function(
       "³¨³½»O¦CÀ¬" = "³¨³½»O¦CÀ¬")
   
   panel <- panel %>%
-    mutate(aream = as.numeric(aream_name))
+    dplyr::mutate(aream = as.numeric(aream_name))
   
   panel
 }
