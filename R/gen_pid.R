@@ -16,7 +16,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   file_match <- list.files("./", paste0("^", file_match_str, ".*\\.xlsx$"))
   
   ## check old file exists
-  if(!length(file_match)==0) {
+  if(length(file_match)!=0) {
     old_file_name <- file_match[[1]]
     original_file_exists <- file.exists(old_file_name)
   } else original_file_exists <- FALSE
@@ -25,7 +25,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   if(original_file_exists) {
     old_data <- readxl::read_excel(old_file_name, 
                                    col_types = c("numeric",rep("text", 3)))
-    cat("從", old_file_name, "匯入", nrow(old_data), "筆舊pid\n\n")
+    cat("從", normalizePath(old_file_name), "匯入", nrow(old_data), "筆舊pid\n\n")
     
     old_pid <- stringr::str_extract(old_data$outurl,
                                     "[^=]+$")  # str after last "="
@@ -37,21 +37,28 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     if(is.null(.survey_id)) .survey_id <- old_data$survey_id[[1]]
     
     new_panel_id <- setdiff(ids, old_data$panel_id) # exclude existed panel_id
-    if(length(new_panel_id)==0) cat("# `gen_fake_id`: 沒有新panel_id需要上傳pid\n\n"); return()
+    
+    if(length(new_panel_id)==0) {
+      cat("# `gen_fake_id`: 沒有新panel_id需要上傳pid\n\n")
+      return()
+    }
   } 
+  else {
+    new_panel_id <- ids
+  }
   
   if(is.null(.survey_id)) stop("`.survey_id` must not be NULL", call. = FALSE)
   if(is.null(.outurl)) stop("`.outurl` must not be NULL", call. = FALSE)
   
-  n_id_exclude_old <- length(new_panel_id)
-  n_duplicated_id <- n_id_exclude_old
+  n_new_panel_id <- length(new_panel_id)  
+  n_duplicated_id <- n_new_panel_id
   new_pid <- NULL  # reserve space
   
   if(n_duplicated_id != 0) {
     repeat {
       new_pid <- c(setdiff(new_pid, old_pid),
                    paste0(toupper(key), stringr::str_pad(sample(500000, n_duplicated_id, replace = FALSE), 
-                                                11, pad = "0")))
+                                                         11, pad = "0")))
       n_duplicated_id <- length(intersect(new_pid, old_pid))
       if(n_duplicated_id == 0) break
     }
@@ -66,7 +73,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   } 
   else df <- old_data
   
-  time_stamp <- strftime(Sys.time(), format = "%Y-%M-%d-%H%M%S")  # time stamp for file name
+  time_stamp <- strftime(Sys.time(), format = "%Y-%m-%d-%H%M%S")  # time stamp for file name
   new_file_name <- paste0(file_match_str, "_",time_stamp, ".xlsx")
   
   ## write to excel file
@@ -86,13 +93,18 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   
   
   cat("-> pid已匯出至 ", new_file_name, "\n",
-      "共匯出", length(old_data$panel_id), "筆舊pid，",
-      n_id_exclude_old, "筆新pid，",
+      "共匯出", 
+      if(original_file_exists) 
+        length(old_data$panel_id), "筆舊pid，",
+      n_new_panel_id, "筆新pid，",
       "檔案中共包含", length(df$panel_id), "筆id\n",
       "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
   
+  
   ## remove old file
   if(file.exists(new_file_name) & original_file_exists)
-    unlink(old_file_name) 
+  {unlink(old_file_name)}
+  
+  
 }
 
