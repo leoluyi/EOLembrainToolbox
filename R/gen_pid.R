@@ -13,9 +13,13 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   
   ## get path base string
   file_match_str <- tools::file_path_sans_ext(basename(path))
-  old_file_name <- list.files("./", paste0("^", file_match_str))[[1]]
+  old_file_name <- list.files("./", paste0("^", file_match_str, ".*\\.xlsx$"))
   
-  original_file_exists <- file.exists(old_file_name)
+  ## check old file exists
+  if(!length(old_file_name)==0) {
+    original_file_exists <- file.exists(old_file_name[[1]])
+  } else original_file_exists <- FALSE
+  
   
   if(original_file_exists) {
     old_data <- readxl::read_excel(old_file_name, 
@@ -67,11 +71,14 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   openxlsx::write.xlsx(df, new_file_name, sheetName="sheet1")
   
   ## create log file
-  dir.create("./pid_log")
-  write.table(data.frame(survey_id = as.numeric(.survey_id), 
-                         panel_id = as.character(ids), 
-                         pid = new_pid),
-              file.path("./pid_log", paste0(file_match_str, "_",time_stamp, ".log")),
+  dir.create("./pid_log", showWarnings = FALSE)
+  df_log <- data.frame(survey_id = as.numeric(.survey_id), 
+                       panel_id = as.character(ids), 
+                       pid = new_pid)
+  write.table(df_log,
+              file = file.path("./pid_log", paste0("log_",
+                                                   file_match_str, "_",
+                                                   time_stamp, ".log")),
               quote = FALSE, row.names = FALSE, col.names = TRUE
   )
   
@@ -81,6 +88,8 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
       "檔案中共包含", length(df$panel_id), "筆id\n",
       "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
   
-  if(file.exists(new_file_name)) unlink(old_file_name) # remove old file
+  ## remove old file
+  if(file.exists(new_file_name) & original_file_exists)
+    unlink(old_file_name) 
 }
 
