@@ -42,8 +42,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
       cat("# `gen_fake_id`: 沒有新panel_id需要上傳pid\n\n")
       return()
     }
-  } 
-  else {
+  } else {
     new_panel_id <- ids
   }
   
@@ -70,8 +69,9 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     if(original_file_exists) {
       df <- as.data.frame(dplyr::bind_rows(old_data, df), stringsAsFactors=F)
     }
-  } 
-  else df <- old_data
+  } else {
+    df <- old_data
+  }
   
   time_stamp <- strftime(Sys.time(), format = "%Y-%m-%d-%H%M%S")  # time stamp for file name
   new_file_name <- paste0(file_match_str, "_",time_stamp, ".xlsx")
