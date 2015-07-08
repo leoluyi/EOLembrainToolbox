@@ -1,5 +1,10 @@
 gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NULL, .etc1=NA) {
   
+  if (missing(key)) {
+    warning("the fake-id key is not specified; by default, the key is 'p'")
+    method = "p"
+  }
+  
   key <- match.arg(key)
   
   if(is.null(ids)) return()
@@ -73,10 +78,9 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     df <- old_data
   }
   
+  ## write to excel file
   time_stamp <- strftime(Sys.time(), format = "%Y-%m-%d-%H%M%S")  # time stamp for file name
   new_file_name <- paste0(file_match_str, "_",time_stamp, ".xlsx")
-  
-  ## write to excel file
   openxlsx::write.xlsx(df, new_file_name, sheetName="sheet1")
   
   ## create log file
@@ -100,7 +104,6 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
       "檔案中共包含", length(df$panel_id), "筆id\n",
       "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
   
-  
 
   if(file.exists(new_file_name) & original_file_exists) {
     ## copy file
@@ -123,4 +126,4 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
                         list.files("./pid_log", "\\.temp$", full.names = TRUE))
   )
 }
-get
+
