@@ -63,7 +63,18 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   time_stamp <- strftime(Sys.time(), format = "%Y-%M-%d-%H%M%S")  # time stamp for file name
   new_file_name <- paste0(file_match_str, "_",time_stamp, ".xlsx")
   
+  ## write to excel file
   openxlsx::write.xlsx(df, new_file_name, sheetName="sheet1")
+  
+  ## create log file
+  dir.create("./pid_log")
+  write.table(data.frame(survey_id = as.numeric(.survey_id), 
+                         panel_id = as.character(ids), 
+                         pid = new_pid),
+              paste0(file_match_str, "_",time_stamp, ".log"),
+              quote = FALSE, row.names = FALSE, col.names = TRUE
+  )
+  
   
   cat("pid已匯出至 ", new_file_name, "\n",
       "共匯出", length(df$panel_id)-n, "筆舊pid，", n, "筆新pid，",
