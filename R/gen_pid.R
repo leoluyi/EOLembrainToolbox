@@ -13,11 +13,12 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   
   ## get path base string
   file_match_str <- tools::file_path_sans_ext(basename(path))
-  old_file_name <- list.files("./", paste0("^", file_match_str, ".*\\.xlsx$"))
+  file_match <- list.files("./", paste0("^", file_match_str, ".*\\.xlsx$"))
   
   ## check old file exists
-  if(!length(old_file_name)==0) {
-    original_file_exists <- file.exists(old_file_name[[1]])
+  if(!length(file_match)==0) {
+    old_file_name <- file_match[[1]]
+    original_file_exists <- file.exists(old_file_name)
   } else original_file_exists <- FALSE
   
   
@@ -35,15 +36,16 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     }
     if(is.null(.survey_id)) .survey_id <- old_data$survey_id[[1]]
     
-    ids <- setdiff(ids, old_data$panel_id) # exclude existed panel_id
+    new_panel_id <- setdiff(ids, old_data$panel_id) # exclude existed panel_id
+    if(length(new_panel_id)==0) cat("# `gen_fake_id`: 沒有新panel_id需要上傳pid\n\n"); return()
   } 
   
   if(is.null(.survey_id)) stop("`.survey_id` must not be NULL", call. = FALSE)
   if(is.null(.outurl)) stop("`.outurl` must not be NULL", call. = FALSE)
   
-  n <- length(ids)
-  new_pid <- NULL
-  n_duplicated_id <- n
+  n_id_exclude_old <- length(new_panel_id)
+  n_duplicated_id <- n_id_exclude_old
+  new_pid <- NULL  # reserve space
   
   if(n_duplicated_id != 0) {
     repeat {
@@ -55,7 +57,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     }
     
     df <- data.frame(survey_id = as.numeric(.survey_id), 
-                     panel_id = as.character(ids), 
+                     panel_id = as.character(new_panel_id), 
                      outurl = paste0(.outurl, new_pid),
                      etc1 = .etc1, stringsAsFactors=F)
     if(original_file_exists) {
@@ -73,7 +75,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   ## create log file
   dir.create("./pid_log", showWarnings = FALSE)
   df_log <- data.frame(survey_id = as.numeric(.survey_id), 
-                       panel_id = as.character(ids), 
+                       panel_id = as.character(new_panel_id), 
                        pid = new_pid)
   write.table(df_log,
               file = file.path("./pid_log", paste0("log_",
@@ -83,8 +85,9 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   )
   
   
-  cat("pid已匯出至 ", new_file_name, "\n",
-      "共匯出", length(df$panel_id)-n, "筆舊pid，", n, "筆新pid，",
+  cat("-> pid已匯出至 ", new_file_name, "\n",
+      "共匯出", length(old_data$panel_id), "筆舊pid，",
+      n_id_exclude_old, "筆新pid，",
       "檔案中共包含", length(df$panel_id), "筆id\n",
       "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
   
