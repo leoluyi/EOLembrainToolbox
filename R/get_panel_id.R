@@ -171,8 +171,8 @@ read_ids <- function(dir_path) {
              full.names = TRUE)  # list of file path
   
   ids <- plyr::llply(file_path, readLines,skipNul = TRUE)
-  
   ids <- unname(unlist(ids))
+  ids
 }
 
 
