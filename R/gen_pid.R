@@ -4,22 +4,30 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   
   if(is.null(ids)) return()
   
+  ## check if file extention is ".xlsx"
   ext <- tolower(tools::file_ext(path))
   if(!identical(ext, "xlsx")) stop("`path` must be .xlsx file", call. = FALSE)
   
   old_pid <- NULL
   
-  if(file.exists(path)) {
-    old_data <- readxl::read_excel(path, 
+  
+  ## get path base string
+  file_match_str <- tools::file_path_sans_ext(basename(path))
+  old_file_name <- list.files("./", paste0("^", file_match_str))[[1]]
+  
+  original_file_exists <- file.exists(old_file_name)
+  
+  if(original_file_exists) {
+    old_data <- readxl::read_excel(old_file_name, 
                                    col_types = c("numeric",rep("text", 3)))
-    cat("匯入", nrow(old_data), "筆舊pid\n\n")
+    cat("從", old_file_name, "匯入", nrow(old_data), "筆舊pid\n\n")
     
     old_pid <- stringr::str_extract(old_data$outurl,
                                     "[^=]+$")  # str after last "="
     
     if(is.null(.outurl)) {
       .outurl <- stringr::str_extract(old_data$outurl,
-                                      "^(.*[=])")[[1]]
+                                      "^(.*[=])")[[1]]  # str before last "="
     }
     if(is.null(.survey_id)) .survey_id <- old_data$survey_id[[1]]
     
@@ -46,18 +54,22 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
                      panel_id = as.character(ids), 
                      outurl = paste0(.outurl, new_pid),
                      etc1 = .etc1, stringsAsFactors=F)
-    if(file.exists(path)) {
+    if(original_file_exists) {
       df <- as.data.frame(dplyr::bind_rows(old_data, df), stringsAsFactors=F)
     }
   } 
   else df <- old_data
   
-  openxlsx::write.xlsx(df, paste0(tools::file_path_sans_ext(path),".xlsx"), 
-                       sheetName="sheet1")
+  time_stamp <- strftime(Sys.time(), format = "%Y-%M-%d-%H%M%S")  # time stamp for file name
+  new_file_name <- paste0(file_match_str, "_",time_stamp, ".xlsx")
   
-  cat("共匯出", length(df$panel_id)-n, "筆舊pid，", n, "筆新pid\n",
-      "檔案中共包含",length(df$panel_id), "筆id\n")
-  cat("pid已匯出至 ", normalizePath(path), "\n",
-      "* 請用excel'另存'成.xls檔 =>「外部調查連結匯入」上傳pid\n")
+  openxlsx::write.xlsx(df, new_file_name, sheetName="sheet1")
+  
+  cat("pid已匯出至 ", new_file_name, "\n",
+      "共匯出", length(df$panel_id)-n, "筆舊pid，", n, "筆新pid，",
+      "檔案中共包含", length(df$panel_id), "筆id\n",
+      "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
+  
+  if(file.exists(new_file_name)) unlink(old_file_name) # remove old file
 }
 
