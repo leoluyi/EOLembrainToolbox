@@ -51,7 +51,9 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     }
   } else df <- old_data
   
-  openxlsx::write.xlsx(df, paste0(tools::file_path_sans_ext(path),".xlsx"))
+  openxlsx::write.xlsx(df, paste0(tools::file_path_sans_ext(path),".xlsx"), 
+                       sheetName="sheet1")
+  
   cat("共匯出", length(df$panel_id)-n, "筆舊pid,",
       n, "筆新pid", "\n\n")
   cat(paste0("'", path, "'"), "已匯出\n* 請用excel'另存'成.xls檔 =>「外部調查連結匯入」上傳pid")
