@@ -229,8 +229,6 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
 
 n_sent_id <- function (sent_id_path, date_from=NULL, date_to=NULL) {
   
-  suppressPackageStartupMessages(library(dplyr))
-
   sent_id_path <- normalizePath(sent_id_path)
 
   if(!is.null(date_from) & !is.null(date_to)) {
