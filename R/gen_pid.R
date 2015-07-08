@@ -71,7 +71,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   write.table(data.frame(survey_id = as.numeric(.survey_id), 
                          panel_id = as.character(ids), 
                          pid = new_pid),
-              paste0(file_match_str, "_",time_stamp, ".log"),
+              file.path("./pid_log", paste0(file_match_str, "_",time_stamp, ".log")),
               quote = FALSE, row.names = FALSE, col.names = TRUE
   )
   
