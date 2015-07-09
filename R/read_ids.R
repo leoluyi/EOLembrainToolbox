@@ -26,8 +26,8 @@ read_ids <- function(path) {
   path <- check_dir_file(path)
   
   switch(path_format(path),
-         xls =  read_ids_txt(path, sheet, col_names, col_types, na, skip),
-         xlsx = read_ids_path(path, sheet, col_names, col_types, na, skip)
+         txt =  read_ids_txt(path),
+         dir_path = read_ids_path(path)
   )
   
 }
