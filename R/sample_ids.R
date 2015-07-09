@@ -92,18 +92,4 @@ write_table_date <- function(ids, file_name) {
 }
 
 
-read_ids <- function(dir_path) {
-  
-  dir_path <- check_dir(dir_path)
-  
-  file_path <- list.files(path = dir_path, 
-                          pattern = "\\.txt$",
-                          recursive = TRUE,
-                          include.dirs = FALSE,
-                          full.names = TRUE)  # list of file path
-  
-  ids <- plyr::llply(file_path, readLines,skipNul = TRUE)
-  ids <- unname(unlist(ids))
-  ids
-}
 

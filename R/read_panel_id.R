@@ -17,12 +17,12 @@ read_panel_id <- function(path = "lib_path") {
   
   panel[,c(2, 4:length(panel))] <-
     lapply(panel[c(2, 4:length(panel))], as.factor) %>%
-    dplyr::as_data_frame
+    dplyr::as_data_frame()
   
   panel <- panel %>%
-    dplyr::mutate(age = as.numeric(age),
-                  aream = as.numeric(aream),
-                  aream_name = factor(aream_name))
+    dplyr::mutate(age = as.numeric(age)) %>%
+    dplyr::mutate(aream = as.numeric(aream)) %>%
+    dplyr::mutate(aream_name = factor(aream_name))
   
   #   area_table <- panel %>%
   #     select(aream, aream_name) %>%
