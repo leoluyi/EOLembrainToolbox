@@ -13,7 +13,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   ext <- tolower(tools::file_ext(path))
   if (!identical(ext, "xlsx")) stop("`path` must be .xlsx file", call. = FALSE)
   
-  old_pid <- NULL
+  old_fake_id <- NULL
   
   
   ## get path base string
@@ -32,8 +32,8 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
                                    col_types = c("numeric",rep("text", 3)))
     cat("從", normalizePath(old_file_name), "匯入", nrow(old_data), "筆舊pid\n\n")
     
-    old_pid <- stringr::str_extract(old_data$outurl,
-                                    "[^=]+$")  # str after last "="
+    old_fake_id <- stringr::str_extract(old_data$outurl,
+                                        "[^=]+$")  # str after last "="
     
     if (is.null(.outurl)) {
       .outurl <- stringr::str_extract(old_data$outurl,
@@ -54,22 +54,23 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   if (is.null(.survey_id)) stop("`.survey_id` must not be NULL", call. = FALSE)
   if (is.null(.outurl)) stop("`.outurl` must not be NULL", call. = FALSE)
   
+  ## generate id
   n_new_panel_id <- length(new_panel_id)  
   n_duplicated_id <- n_new_panel_id
-  new_pid <- NULL  # reserve space
+  new_fake_id <- NULL  # reserve space
   
   if (n_duplicated_id != 0) {
     repeat {
-      new_pid <- c(setdiff(new_pid, old_pid),
-                   paste0(toupper(key), stringr::str_pad(sample(500000, n_duplicated_id, replace = FALSE), 
-                                                         11, pad = "0")))
-      n_duplicated_id <- length(intersect(new_pid, old_pid))
+      new_fake_id <- c(setdiff(new_fake_id, old_fake_id), 
+                       id_generator(n_duplicated_id, key))
+      n_duplicated_id <- length(intersect(new_fake_id, old_fake_id))
       if (n_duplicated_id == 0) break
     }
     
+    ## new output df
     df <- data.frame(survey_id = as.numeric(.survey_id), 
                      panel_id = as.character(new_panel_id), 
-                     outurl = paste0(.outurl, new_pid),
+                     outurl = paste0(.outurl, new_fake_id),
                      etc1 = .etc1, stringsAsFactors=F)
     if (original_file_exists) {
       df <- as.data.frame(dplyr::bind_rows(old_data, df), stringsAsFactors=F)
@@ -87,7 +88,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   dir.create("./pid_log", showWarnings = FALSE)
   df_log <- data.frame(survey_id = as.numeric(.survey_id), 
                        panel_id = as.character(new_panel_id), 
-                       pid = new_pid)
+                       pid = new_fake_id)
   write.table(df_log,
               file = file.path("./pid_log", paste0("log_",
                                                    file_match_str, "_",
@@ -104,7 +105,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
       "檔案中共包含", length(df$panel_id), "筆id\n",
       "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
   
-
+  
   if (file.exists(new_file_name) & original_file_exists) {
     ## copy file
     file.copy(from = old_file_name, 
@@ -115,7 +116,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     log_xlsx_match <- list.files("./pid_log", 
                                  paste0("\\.backup$"), 
                                  full.names = TRUE)
-
+    
     file.remove(log_xlsx_match)
     cat(log_xlsx_match, sep = "\n", "removed.\n")
   }
@@ -125,5 +126,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
               to = gsub("\\.temp$", ".backup",
                         list.files("./pid_log", "\\.temp$", full.names = TRUE))
   )
+  
+  invisible()
 }
 
