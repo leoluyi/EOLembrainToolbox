@@ -1,7 +1,8 @@
 gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NULL, .etc1=NA) {
   
   if (missing(key)) {
-    warning("the fake-id key is not specified; by default, the key is 'p'")
+    warning("the fake-id key is not specified; by default, the key is 'p'", 
+            call.=FALSE)
     method = "p"
   }
   
