@@ -116,9 +116,10 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     log_xlsx_match <- list.files("./pid_log", 
                                  paste0("\\.backup$"), 
                                  full.names = TRUE)
-    
-    file.remove(log_xlsx_match)
-    cat(log_xlsx_match, sep = "\n", "removed.\n")
+    if (length(log_xlsx_match) !=0) {
+      file.remove(log_xlsx_match)
+      cat(log_xlsx_match, sep = "\n", "removed.\n")
+    }
   }
   
   ## rename
