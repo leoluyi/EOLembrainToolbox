@@ -1,7 +1,7 @@
 read_panel_id <- function(path = "lib_path") {
   
   if(path == "lib_path") 
-    path <- system.file("extdata/panel_2015-06-08.csv", package = "EOLembrainToolbox")
+    path <- system.file("extdata/panel_data.csv", package = "EOLembrainToolbox")
   
   # check extension: csv
   if(tolower(tools::file_ext(path)) != "csv") 
