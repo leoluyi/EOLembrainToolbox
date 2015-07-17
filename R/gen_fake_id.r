@@ -31,7 +31,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   if (original_file_exists) {
     old_data <- readxl::read_excel(old_file_name, 
                                    col_types = c("numeric",rep("text", 3)))
-    cat("±q", normalizePath(old_file_name), "¶×¤J", nrow(old_data), "µ§ÂÂpid\n\n")
+    cat("å¾ž", normalizePath(old_file_name), "åŒ¯å…¥", nrow(old_data), "ç­†èˆŠpid\n\n")
     
     old_fake_id <- stringr::str_extract(old_data$outurl,
                                         "[^=]+$")  # str after last "="
@@ -45,7 +45,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     new_panel_id <- setdiff(ids, old_data$panel_id) # exclude existed panel_id
     
     if (length(new_panel_id)==0) {
-      cat("# `gen_fake_id`: ¨S¦³·spanel_id»Ý­n¤W¶Çpid\n\n")
+      cat("# `gen_fake_id`: æ²’æœ‰æ–°panel_idéœ€è¦ä¸Šå‚³pid\n\n")
       return()
     }
   } else {
@@ -98,13 +98,13 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   )
   
   
-  cat("-> pid¤w¶×¥X¦Ü ", new_file_name, "\n",
-      "¦@¶×¥X", 
+  cat("-> pidå·²åŒ¯å‡ºè‡³ ", new_file_name, "\n",
+      "å…±åŒ¯å‡º", 
       if (original_file_exists) 
-        length(old_data$panel_id), "µ§ÂÂpid¡A",
-      n_new_panel_id, "µ§·spid¡A",
-      "ÀÉ®×¤¤¦@¥]§t", length(df$panel_id), "µ§id\n",
-      "(½Ð¥Îexcel'¥t¦s'¦¨.xlsÀÉ =>¡u¥~³¡½Õ¬d³sµ²¶×¤J¡v=> ¤W¶Çpid)\n\n")
+        length(old_data$panel_id), "ç­†èˆŠpidï¼Œ",
+      n_new_panel_id, "ç­†æ–°pidï¼Œ",
+      "æª”æ¡ˆä¸­å…±åŒ…å«", length(df$panel_id), "ç­†id\n",
+      "(è«‹ç”¨excel'å¦å­˜'æˆ.xlsæª” =>ã€Œå¤–éƒ¨èª¿æŸ¥é€£çµåŒ¯å…¥ã€=> ä¸Šå‚³pid)\n\n")
   
   
   if (file.exists(new_file_name) & original_file_exists) {
