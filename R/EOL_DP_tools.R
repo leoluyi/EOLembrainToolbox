@@ -1,6 +1,5 @@
-
 as.numeric_RC <- function (.data) {
-   
+  
   # 有C、R或S的變數轉成數字
   
   is_tbl <- inherits(.data, "tbl")
