@@ -8,7 +8,7 @@ as.strataCrossN <- function(.strataPctList, .namesList, N){
   
   ## error handler
   if (length(.strataPctList) != length(.namesList)) 
-    stop("`strataPctList`©M`namesList`ªø«×¤£¤@­P")
+    stop("`strataPctList`å’Œ`namesList`é•·åº¦ä¸ä¸€è‡´")
   if (is.list(.strataPctList) != TRUE) stop(".strataPctList must have class \"list\"")
   if (is.list(.namesList) != TRUE) stop(".strataPctList must have class \"list\"")
   
@@ -19,12 +19,12 @@ as.strataCrossN <- function(.strataPctList, .namesList, N){
   strataCrossArr <- as.array(strataCrossArr)
   dimnames(strataCrossArr) <- .namesList
   
-  ## ©â¼Ë°}¦C
+  ## æŠ½æ¨£é™£åˆ—
   N <- as.integer(N)
-  strataCrossN <- round(strataCrossArr*N, 0); # sum(strataCrossN) # Á`¼Æ
-  ## ¥­­±¤Æ
+  strataCrossN <- round(strataCrossArr*N, 0); # sum(strataCrossN) # ç¸½æ•¸
+  ## å¹³é¢åŒ–
   strataCrossN_flat = as.data.frame.table(strataCrossN)
-  ## ©Î¥Î{plyr}°µ¦¨¥­­±¤Æ
+  ## æˆ–ç”¨{plyr}åšæˆå¹³é¢åŒ–
   # library(plyr)
   # adply(strataCrossN, c(1,2,3))
   return(strataCrossN_flat)
@@ -34,10 +34,10 @@ as.strataCrossN <- function(.strataPctList, .namesList, N){
 
 margin_prop <- function(.strataCrossN_flat,
                         export = FALSE,
-                        outputfile="R¹ê©â¼Ë¥»temp.csv")
+                        outputfile="Rå¯¦æŠ½æ¨£æœ¬temp.csv")
 {
   
-  ## ¹ê©â¼Ë¥»expanded
+  ## å¯¦æŠ½æ¨£æœ¬expanded
   strataCrossN.expanded <- .strataCrossN_flat[
     rep(row.names(.strataCrossN_flat), .strataCrossN_flat$Freq), 
     1:length(.strataCrossN_flat)]
@@ -45,25 +45,25 @@ margin_prop <- function(.strataCrossN_flat,
   strataCrossN.expanded <- strataCrossN.expanded[-length(strataCrossN.expanded)]
   
   Ndim <- length(strataCrossN.expanded)
-  Á`©â¼Ë¥» <- margin.table(table(strataCrossN.expanded)) # Sum total
+  ç¸½æŠ½æ¨£æœ¬ <- margin.table(table(strataCrossN.expanded)) # Sum total
   
-  ## «Ø¥ßlist
+  ## å»ºç«‹list
   mar_tab <- function(x) {
     prop.table(table(x, deparse.level = 0))
   }
   
   tab <- function(x) table(x, deparse.level = 0)
   
-  probList <- c(Á`¼Ë¥»¼Æ = Á`©â¼Ë¥», 
+  probList <- c(ç¸½æ¨£æœ¬æ•¸ = ç¸½æŠ½æ¨£æœ¬, 
                     lapply(strataCrossN.expanded, FUN = mar_tab))
   
   freqList <- lapply(strataCrossN.expanded, FUN = tab)
   print(freqList)
   cat(paste0(rep("-", 40), collapse = ""), "\n")
   
-  ## ¹ê©â¼Ë¥»¼g¤Jtxt
+  ## å¯¦æŠ½æ¨£æœ¬å¯«å…¥txt
   
-  #cat(.strataCrossN_flat$Freq, file = "¹ê©â¼Ë¥»vector.txt", sep = "\n")
+  #cat(.strataCrossN_flat$Freq, file = "å¯¦æŠ½æ¨£æœ¬vector.txt", sep = "\n")
   if(export) {
     write.csv(.strataCrossN_flat, file = outputfile, row.names=FALSE)
   }
@@ -75,20 +75,20 @@ margin_prop <- function(.strataCrossN_flat,
 
 
 
-renew_sampleN <- function (.strataCrossN_flat, outputfile="R¹ê©â¼Ë¥»temp.csv") {
+renew_sampleN <- function (.strataCrossN_flat, outputfile="Rå¯¦æŠ½æ¨£æœ¬temp.csv") {
   
-  ## ¹ê©â¼Ë¥»±qtxt­«Åª
-  # ¹ê©â¼Ë¥» <- as.numeric(readLines("¹ê©â¼Ëvector¥».txt"))
-  ¹ê©â¼Ë¥» <- read.csv(file = outputfile, header=TRUE)$Freq
-  .strataCrossN_flat$Freq <- ¹ê©â¼Ë¥»  # §ó·s
-  ## ¹ê©â¼Ë¥»¼g¤Jtxt
-  #cat(.strataCrossN_flat$Freq, file = "¹ê©â¼Ë¥»vector.txt", sep = "\n")
+  ## å¯¦æŠ½æ¨£æœ¬å¾txté‡è®€
+  # å¯¦æŠ½æ¨£æœ¬ <- as.numeric(readLines("å¯¦æŠ½æ¨£vectoræœ¬.txt"))
+  å¯¦æŠ½æ¨£æœ¬ <- read.csv(file = outputfile, header=TRUE)$Freq
+  .strataCrossN_flat$Freq <- å¯¦æŠ½æ¨£æœ¬  # æ›´æ–°
+  ## å¯¦æŠ½æ¨£æœ¬å¯«å…¥txt
+  #cat(.strataCrossN_flat$Freq, file = "å¯¦æŠ½æ¨£æœ¬vector.txt", sep = "\n")
   write.csv(.strataCrossN_flat, file = outputfile, row.names=FALSE)
   return(.strataCrossN_flat)
 }
 
 
-# ## Åª¨úraw data
+# ## è®€å–raw data
 # read.data.xlsx3 <- function (.fileName, .sheetIndex=1, .colIndex=NULL, 
 #                              .colClasses="character", encoding="unknown")
 # {
@@ -102,7 +102,7 @@ renew_sampleN <- function (.strataCrossN_flat, outputfile="R¹ê©â¼Ë¥»temp.csv") {
 # }
 
 
-# ## Åª¨úraw data
+# ## è®€å–raw data
 # read.data.xlsx2 <- function (.fileName, .sheetIndex=1, .colIndex=NULL, 
 #                              .colClasses="character", encoding="unknown")
 # {
@@ -112,21 +112,21 @@ renew_sampleN <- function (.strataCrossN_flat, outputfile="R¹ê©â¼Ë¥»temp.csv") {
 #   
 #   jgc()
 #   
-#   options(java.parameters = "-Xmx4g") # read.xlsx¼W¥[°O¾ĞÅé
+#   options(java.parameters = "-Xmx4g") # read.xlsxå¢åŠ è¨˜æ†¶é«”
 #   
 #   .data <- xlsx::read.xlsx2(
 #     file = .fileName,
 #     sheetIndex = .sheetIndex,
 #     header = T,
 #     colClasses = .colClasses,
-#     colIndex = .colIndex,  # ¥uÂ^¨ú«e¤QÄæ
+#     colIndex = .colIndex,  # åªæ“·å–å‰åæ¬„
 #     stringsAsFactors = FALSE
 #   )
 #   return(.data)
 # }
 
 
-# ## Åª¨úraw data
+# ## è®€å–raw data
 # read.data.xlsx <- function (.fileName, .sheetIndex=1, .colIndex=NULL,
 #                             .colClasses="character", encoding="unknown")
 # {
@@ -141,7 +141,7 @@ renew_sampleN <- function (.strataCrossN_flat, outputfile="R¹ê©â¼Ë¥»temp.csv") {
 #     sheetIndex = .sheetIndex,
 #     header = T,
 #     colClasses = .colClasses,
-#     colIndex = .colIndex,  # ¥uÂ^¨ú«e¤QÄæ
+#     colIndex = .colIndex,  # åªæ“·å–å‰åæ¬„
 #     encoding = encoding,
 #     stringsAsFactors = FALSE
 #   )
@@ -155,7 +155,7 @@ sampleC <- function (.data,
                      .vars,
                      .namesList) {
   
-  # ¨¾§b
+  # é˜²å‘†
   if (length(.vars) != length(.namesList))
     stop("length(.vars) must equal to length(.namesList)")
   if (is.data.frame(.data) != TRUE) 
@@ -164,7 +164,7 @@ sampleC <- function (.data,
   ID_var_name <- names(.data)[grep("ID$", names(.data), ignore.case = TRUE)][[1]]
   if(length(ID_var_name)!=0)
     if(anyDuplicated(.data[[ID_var_name]])) {
-      stop(c("ID¦³­«½Æ: ", "\n",
+      stop(c("IDæœ‰é‡è¤‡: ", "\n",
              paste0(unique(
                .data[[ID_var_name]][duplicated(.data[[ID_var_name]])]), 
                collapse = "\n")))
@@ -173,7 +173,7 @@ sampleC <- function (.data,
   
   var_names <- names(.namesList)
   
-  # ±Æ°£¤£¦blistªº¼Ë¥»
+  # æ’é™¤ä¸åœ¨listçš„æ¨£æœ¬
   for(i in seq_along(.namesList)){
     filter_criteria <- lazyeval::interp(~ which_column %in% .namesList[[i]], 
                                         which_column = as.name(.vars[i]))
@@ -195,34 +195,34 @@ sampleC <- function (.data,
   }
   
   
-  # .strataCrossN_flat ±Æ§Ç
+  # .strataCrossN_flat æ’åº
   .strataCrossN_flat <- .strataCrossN_flat[c(var_names, "Freq")]
   .strataCrossN_flat <- .strataCrossN_flat %>%
     arrange_(.dots = rev(names(.strataCrossN_flat)[-length(.strataCrossN_flat)]))
   
-  # ¼Ë¥»¤À§G
+  # æ¨£æœ¬åˆ†ä½ˆ
   sampleCross_flat <- table(
-    .data[.vars]) %>% # (Q1R..¬°excelÀÉªíÀYÅÜ¼Æ¦W)
+    .data[.vars]) %>% # (Q1R..ç‚ºexcelæª”è¡¨é ­è®Šæ•¸å)
     as.data.frame.table()
   
-  # sampleCross_flat ±Æ§Ç
+  # sampleCross_flat æ’åº
   sampleCross_flat <- sampleCross_flat %>% arrange_(.dots = rev(.vars))
   
-  # ÀË¬d¦h¹è
+  # æª¢æŸ¥å¤šå¯¡
   ncolStrata = ncol(.strataCrossN_flat)
   ncolSample = ncol(sampleCross_flat)
   
   n1 <- sampleCross_flat[["Freq"]]
   n2 <- .strataCrossN_flat[["Freq"]]
   
-  # ¨¾§b
-  if (length(n1) != length(n2)) stop("¼Ë¥»²Õ¦X»P¤À¼h¼Æ¤£¬Ûµ¥")
+  # é˜²å‘†
+  if (length(n1) != length(n2)) stop("æ¨£æœ¬çµ„åˆèˆ‡åˆ†å±¤æ•¸ä¸ç›¸ç­‰")
   
   strataCompare <-
     cbind(.strataCrossN_flat[!(names(.strataCrossN_flat) %in% c("Freq"))], 
-          À³©â¼Ë¥»¼Æ = n2,
+          æ‡‰æŠ½æ¨£æœ¬æ•¸ = n2,
           Completed_N = n1,
-          ¼Ë¥»¦h¹è = n1 - n2
+          æ¨£æœ¬å¤šå¯¡ = n1 - n2
     )
   return(strataCompare)
 }
@@ -258,12 +258,12 @@ strata.sample.ID <- function (.data, .strataCrossN_flat, .namesList,
   # 
   # data.reordered <- subset(data.reordered, !(Q1R==1 && Q2R==2 && Q3R==4) &&
   #                            !(Q1R==2 && Q2R==2 && Q3R==4))
-  # ¹ê©â¼Ë¥» <- ¹ê©â¼Ë¥»[¹ê©â¼Ë¥»!=0]
+  # å¯¦æŠ½æ¨£æœ¬ <- å¯¦æŠ½æ¨£æœ¬[å¯¦æŠ½æ¨£æœ¬!=0]
   
   ID_var_name <- ID_var_name[[1]]
   
   if(anyDuplicated(.data[[ID_var_name]])) {
-    stop(c("©â¨ú¤§ID¦³­«½Æ: ", "\n",
+    stop(c("æŠ½å–ä¹‹IDæœ‰é‡è¤‡: ", "\n",
            paste0(.data[[ID_var_name]][duplicated(.data[[ID_var_name]])], 
                   collapse = "\n")))
   }
@@ -276,21 +276,21 @@ strata.sample.ID <- function (.data, .strataCrossN_flat, .namesList,
       factor(levels=.namesList[[i]])
   }
   
-  # .strataCrossN_flat ±Æ§Ç
+  # .strataCrossN_flat æ’åº
   .strataCrossN_flat <- .strataCrossN_flat[,c(var_names, "Freq")]
   .strataCrossN_flat <- .strataCrossN_flat %>%
     arrange_(.dots = rev(names(.strataCrossN_flat)[-length(.strataCrossN_flat)]))
   
-  # .strataCrossN_flat ²¾°£Freq == 0
+  # .strataCrossN_flat ç§»é™¤Freq == 0
   .strataCrossN_flat <- .strataCrossN_flat %>%
     filter(!(Freq == 0))
   
   N_vector <- .strataCrossN_flat$Freq
   
-  # .data±Æ°£­«½Æid
+  # .dataæ’é™¤é‡è¤‡id
   .data <- .data %>% distinct_(ID_var_name)
   
-  # .data±Æ°£¤£¦blistªº¼Ë¥»
+  # .dataæ’é™¤ä¸åœ¨listçš„æ¨£æœ¬
   for(i in seq_along(.namesList)){
     filter_criteria <- lazyeval::interp(~ which_column %in% .namesList[[i]], 
                                         which_column = as.name(.vars[i]))
@@ -304,17 +304,17 @@ strata.sample.ID <- function (.data, .strataCrossN_flat, .namesList,
       factor(levels=.namesList[[i]])
   }
   
-  # .data ±Æ§Ç (strata©â¼Ë¼Ë¥»­n¥ı±Æ§Ç)
-  data.reordered <- arrange_(.data, .dots = rev(.vars)) ## ¥H«á­±ÅÜ¼Æ¬°²Ä¤@±Æ§Ç¼h¯Å
+  # .data æ’åº (strataæŠ½æ¨£æ¨£æœ¬è¦å…ˆæ’åº)
+  data.reordered <- arrange_(.data, .dots = rev(.vars)) ## ä»¥å¾Œé¢è®Šæ•¸ç‚ºç¬¬ä¸€æ’åºå±¤ç´š
   
-  # ©â¥X¤§ID
+  # æŠ½å‡ºä¹‹ID
   ID_Output <- data.reordered %>%
     sampling::strata(stratanames=.vars, size=N_vector, 
            method, .data[[pik]]) %>%
     sampling::getdata(data.reordered,.) %>%
     `[[`(ID_var_name) %>% unlist %>% unname
   
-  cat("¦@", length(ID_Output), "­ÓID³Q©â¥X\n")
+  cat("å…±", length(ID_Output), "å€‹IDè¢«æŠ½å‡º\n")
   
   return(ID_Output)
 }
@@ -322,26 +322,26 @@ strata.sample.ID <- function (.data, .strataCrossN_flat, .namesList,
 
 write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
   
-  # ID_var_name: ID©Ò¦bÅÜ¼Æ¦W
-  # ID_sample: ­n©â¨úªºID
+  # ID_var_name: IDæ‰€åœ¨è®Šæ•¸å
+  # ID_sample: è¦æŠ½å–çš„ID
   
-  # ¨¾§b
+  # é˜²å‘†
   if(anyDuplicated(ID_sample)) {
-    stop(c("©â¨ú¤§ID¦³­«½Æ: ", "\n",
+    stop(c("æŠ½å–ä¹‹IDæœ‰é‡è¤‡: ", "\n",
            paste0(ID_sample[duplicated(ID_sample)], 
                   collapse = "\n")))
   }
   
-  # .data±Æ°£­«½Æid
+  # .dataæ’é™¤é‡è¤‡id
   .data <- .data %>% distinct_(ID_var_name)
   
   tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
   
   outputfileName <- paste(tools::file_path_sans_ext(fileName),
-                          "©â¼Ë«áraw_data.xlsx",sep = "_")
+                          "æŠ½æ¨£å¾Œraw_data.xlsx",sep = "_")
   
-  # Âà¬°data.frame
+  # è½‰ç‚ºdata.frame
   is_tbl <- inherits(.data, "tbl")
   if(!is.data.frame(.data)) {
     .data <- dplyr::as_data_frame(.data)
@@ -364,10 +364,10 @@ write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
 
 # write.output.xlsx2 <- function(ID_sample, .data, ID_var_name){
 #   
-#   # ID_var_name: ID©Ò¦bÅÜ¼Æ¦W
-#   # ID_sample: ­n©â¨úªºID
+#   # ID_var_name: IDæ‰€åœ¨è®Šæ•¸å
+#   # ID_sample: è¦æŠ½å–çš„ID
 #   
-#   options(java.parameters = "-Xmx4g") # read.xlsx¼W¥[°O¾ĞÅé
+#   options(java.parameters = "-Xmx4g") # read.xlsxå¢åŠ è¨˜æ†¶é«”
 #   
 #   library(tools)
 #   library(xlsx)
@@ -378,21 +378,21 @@ write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
 #   
 #   jgc()
 #   
-#   # ¨¾§b
+#   # é˜²å‘†
 #   if(anyDuplicated(ID_sample)) {
-#     stop(c("©â¨ú¤§ID¦³­«½Æ: ", "\n",
+#     stop(c("æŠ½å–ä¹‹IDæœ‰é‡è¤‡: ", "\n",
 #            paste0(ID_sample[duplicated(ID_sample)], 
 #                   collapse = "\n")))
 #   }
 #   
-#   # .data±Æ°£­«½Æid
+#   # .dataæ’é™¤é‡è¤‡id
 #   .data <- .data %>% distinct_(ID_var_name)
 #   
 #   tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
 #   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
 #   
 #   outputfileName <- paste(file_path_sans_ext(fileName),
-#                           "©â¼Ë«áraw_data.xlsx",sep = "_")
+#                           "æŠ½æ¨£å¾Œraw_data.xlsx",sep = "_")
 #   write.xlsx2(x = tempData, file = outputfileName,
 #               sheetName = paste("N=", length(unique(ID_sample)),sep=""), 
 #               row.names = FALSE, showNA=FALSE)
@@ -404,8 +404,8 @@ write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
 
 # write.output.xlsx1 <- function(ID_sample, .data, ID_var_name){
 #   
-#   # ID_var_name: ID©Ò¦bÅÜ¼Æ¦W
-#   # ID_sample: ­n©â¨úªºID
+#   # ID_var_name: IDæ‰€åœ¨è®Šæ•¸å
+#   # ID_sample: è¦æŠ½å–çš„ID
 #   
 #   library(tools)
 #   library(xlsx)
@@ -416,21 +416,21 @@ write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
 #   
 #   jgc()
 #   
-#   # ¨¾§b
+#   # é˜²å‘†
 #   if(anyDuplicated(ID_sample)) {
-#     stop(c("©â¨ú¤§ID¦³­«½Æ: ", "\n",
+#     stop(c("æŠ½å–ä¹‹IDæœ‰é‡è¤‡: ", "\n",
 #            paste0(ID_sample[duplicated(ID_sample)], 
 #                   collapse = "\n")))
 #   }
 #   
-#   # .data±Æ°£­«½Æid
+#   # .dataæ’é™¤é‡è¤‡id
 #   .data <- .data %>% distinct_(ID_var_name)
 #   
 #   tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
 #   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
 #   
 #   outputfileName <- paste(file_path_sans_ext(fileName),
-#                           "©â¼Ë«áraw_data.xlsx",sep = "_")
+#                           "æŠ½æ¨£å¾Œraw_data.xlsx",sep = "_")
 #   write.xlsx(x = tempData, file = outputfileName,
 #              sheetName = paste("N=", length(unique(ID_sample)),sep=""), 
 #              row.names = FALSE, showNA=FALSE)
@@ -440,24 +440,24 @@ write.output.xlsx3 <- function(ID_sample, .data, ID_var_name){
 
 write.output.csv <- function(ID_sample, .data, ID_var_name){
   
-  # ID_var_name: ID©Ò¦bÅÜ¼Æ¦W
-  # ID_sample: ­n©â¨úªºID
+  # ID_var_name: IDæ‰€åœ¨è®Šæ•¸å
+  # ID_sample: è¦æŠ½å–çš„ID
   
-  # ¨¾§b
+  # é˜²å‘†
   if(anyDuplicated(ID_sample)) {
-    stop(c("©â¨ú¤§ID¦³­«½Æ: ", "\n",
+    stop(c("æŠ½å–ä¹‹IDæœ‰é‡è¤‡: ", "\n",
            paste0(ID_sample[duplicated(ID_sample)], 
                   collapse = "\n")))
   }
   
-  # .data±Æ°£­«½Æid
+  # .dataæ’é™¤é‡è¤‡id
   .data <- .data %>% distinct_(ID_var_name)
   
   tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
   
   outputfileName <- paste(tools::file_path_sans_ext(fileName),
-                          "©â¼Ë«áraw_data.csv",sep = "_")
+                          "æŠ½æ¨£å¾Œraw_data.csv",sep = "_")
   write.csv(x = tempData, file = outputfileName,
             quote = T, na = "", row.names=F)
   write.csv(x = tempData_backup, 

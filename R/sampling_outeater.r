@@ -2,9 +2,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
                                sent_id = NULL,
                                finished_id = NULL) {
   
-  cat("¥x¥_:\t")
+  cat("台北:\t")
   id_TP <- panel_id %>%
-    filter(aream_name %in% c("»O¥_¥«")) %>%           # city
+    filter(aream_name %in% c("臺北市")) %>%           # city
     filter(gender %in% sampleN$TP[["gender"]]) %>%    # gender
     filter(age %in% sampleN$TP[["age"]]) %>%          # age
     sample_N(sampleN$TP$N,
@@ -13,9 +13,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$TP$include_sent,
              show = T)    # Sample N id
   
-  cat("·s¥_:\t")
+  cat("新北:\t")
   id_NewTP <- panel_id %>%
-    filter(aream_name %in% c("·s¥_¥«")) %>%            # city
+    filter(aream_name %in% c("新北市")) %>%            # city
     filter(gender %in% sampleN$NewTP[["gender"]]) %>% # gender
     filter(age %in% sampleN$NewTP[["age"]]) %>%        # age
     sample_N(sampleN$NewTP$N,
@@ -24,9 +24,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$NewTP$include_sent,
              show = T)     # Sample N id
   
-  cat("°ò©y:\t")
+  cat("基宜:\t")
   id_KL_YL <- panel_id %>%
-    filter(aream_name %in% c("°ò¶©¥«", "©yÄõ¿¤")) %>% # city
+    filter(aream_name %in% c("基隆市", "宜蘭縣")) %>% # city
     filter(gender %in% sampleN$KL_YL[["gender"]]) %>%    # gender
     filter(age %in% sampleN$KL_YL[["age"]]) %>%       # age
     sample_N(sampleN$KL_YL$N,
@@ -35,10 +35,10 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$KL_YL$include_sent,
              show = T)   # Sample N id
   
-  cat("®ç¦Ë­]:\t")
+  cat("桃竹苗:\t")
   id_TY_XC_ML <- panel_id %>%
-    filter(aream_name %in% c("®ç¶é¥«", "·s¦Ë¥«",
-                             "·s¦Ë¿¤", "­]®ß¿¤")) %>%  # city
+    filter(aream_name %in% c("桃園市", "新竹市",
+                             "新竹縣", "苗栗縣")) %>%  # city
     filter(gender %in% sampleN$TY_XC_ML[["gender"]]) %>%     # gender
     filter(age %in% sampleN$TY_XC_ML[["age"]]) %>%     # age
     sample_N(sampleN$TY_XC_ML$N,
@@ -47,9 +47,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$TY_XC_ML$include_sent,
              show = T)   # Sample N id
   
-  cat("¤¤¹ü§ë:\t")
+  cat("中彰投:\t")
   id_TCH_CHW_NT <- panel_id %>%
-    filter(aream_name %in% c("»O¤¤¥«", "¹ü¤Æ¿¤", "«n§ë¿¤")) %>%  # city
+    filter(aream_name %in% c("臺中市", "彰化縣", "南投縣")) %>%  # city
     filter(gender %in% sampleN$TCH_CHW_NT[["gender"]]) %>%     # gender
     filter(age %in% sampleN$TCH_CHW_NT[["age"]]) %>%   # age
     sample_N(sampleN$TCH_CHW_NT$N,
@@ -58,9 +58,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$TCH_CHW_NT$include_sent,
              show = T)  # Sample N id
   
-  cat("¶³¹Å«n:\t")
+  cat("雲嘉南:\t")
   id_YL_CHY_TN <- panel_id %>%
-    filter(aream_name %in% c("¶³ªL¿¤", "¹Å¸q¥«", "¹Å¸q¿¤","»O«n¥«")) %>% # city
+    filter(aream_name %in% c("雲林縣", "嘉義市", "嘉義縣","臺南市")) %>% # city
     filter(gender %in% sampleN$YL_CHY_TN[["gender"]]) %>%    # gender
     filter(age %in% sampleN$YL_CHY_TN[["age"]]) %>%   # age
     sample_N(sampleN$YL_CHY_TN$N,
@@ -69,9 +69,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$YL_CHY_TN$include_sent,
              show = T)    # Sample N id
   
-  cat("°ª«Ì:\t")
+  cat("高屏:\t")
   id_KS_PT <- panel_id %>%
-    filter(aream_name %in% c("°ª¶¯¥«", "«ÌªF¿¤")) %>% # city
+    filter(aream_name %in% c("高雄市", "屏東縣")) %>% # city
     filter(gender %in% sampleN$KS_PT[["gender"]]) %>%    # gender
     filter(age %in% sampleN$KS_PT[["age"]]) %>%       # age
     sample_N(sampleN$KS_PT$N,
@@ -80,9 +80,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$KS_PT$include_sent,
              show = T)     # Sample N id
   
-  cat("ªáªF:\t")
+  cat("花東:\t")
   id_HWL_TD <- panel_id %>%
-    filter(aream_name %in% c("ªá½¬¿¤", "»OªF¿¤")) %>% # city
+    filter(aream_name %in% c("花蓮縣", "臺東縣")) %>% # city
     filter(gender %in% sampleN$HWL_TD[["gender"]]) %>%    # gender
     filter(age %in% sampleN$HWL_TD[["age"]]) %>%      # age
     sample_N(sampleN$HWL_TD$N,

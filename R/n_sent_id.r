@@ -14,16 +14,16 @@ n_sent_id <- function (sent_id_path, date_from=NULL, date_to=NULL) {
                   col_names = F,
                   col_types = "c") %>%
       unlist %>% unname %>%  unique %>% length %>%
-      cat(date_from, "¦Ü", date_to, "´Á¶¡¦@µo°e¤F\n", ., "­ÓID")
+      cat(date_from, "è‡³", date_to, "æœŸé–“å…±ç™¼é€äº†\n", ., "å€‹ID")
   } else {
     list.files(path = sent_id_path,
                recursive = TRUE,
                include.dirs = FALSE,
-               full.names=TRUE) %>%  # ¸ô®|
+               full.names=TRUE) %>%  # è·¯å¾‘
       plyr::llply(readr::read_table,
                   col_names = F,
                   col_types = "c") %>%
       unlist %>% unname %>% unique %>% length %>% 
-      cat(sent_id_path, "\n¸ê®Æ§¨¤¤¦@µo°e¤F\n", ., "­ÓID\n")
+      cat(sent_id_path, "\nè³‡æ–™å¤¾ä¸­å…±ç™¼é€äº†\n", ., "å€‹ID\n")
   }
 }
