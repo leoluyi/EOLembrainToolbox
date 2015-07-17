@@ -2,9 +2,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
                                sent_id = NULL,
                                finished_id = NULL) {
   
-  cat("¥x¥_:\t")
+  cat("Â¥xÂ¥_:\t")
   id_TP <- panel_id %>%
-    filter(aream_name %in% c("»O¥_¥«")) %>%           # city
+    filter(aream_name %in% c("Â»OÂ¥_Â¥Â«")) %>%           # city
     filter(gender %in% sampleN$TP[["gender"]]) %>%    # gender
     filter(age %in% sampleN$TP[["age"]]) %>%          # age
     sample_N(sampleN$TP$N,
@@ -13,9 +13,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$TP$include_sent,
              show = T)    # Sample N id
   
-  cat("·s¥_:\t")
+  cat("Â·sÂ¥_:\t")
   id_NewTP <- panel_id %>%
-    filter(aream_name %in% c("·s¥_¥«")) %>%            # city
+    filter(aream_name %in% c("Â·sÂ¥_Â¥Â«")) %>%            # city
     filter(gender %in% sampleN$NewTP[["gender"]]) %>% # gender
     filter(age %in% sampleN$NewTP[["age"]]) %>%        # age
     sample_N(sampleN$NewTP$N,
@@ -24,9 +24,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$NewTP$include_sent,
              show = T)     # Sample N id
   
-  cat("°ò©y:\t")
+  cat("Â°Ã²Â©y:\t")
   id_KL_YL <- panel_id %>%
-    filter(aream_name %in% c("°ò¶©¥«", "©yÄõ¿¤")) %>% # city
+    filter(aream_name %in% c("Â°Ã²Â¶Â©Â¥Â«", "Â©yÃ„ÃµÂ¿Â¤")) %>% # city
     filter(gender %in% sampleN$KL_YL[["gender"]]) %>%    # gender
     filter(age %in% sampleN$KL_YL[["age"]]) %>%       # age
     sample_N(sampleN$KL_YL$N,
@@ -35,10 +35,10 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$KL_YL$include_sent,
              show = T)   # Sample N id
   
-  cat("®ç¦Ë­]:\t")
+  cat("Â®Ã§Â¦Ã‹Â­]:\t")
   id_TY_XC_ML <- panel_id %>%
-    filter(aream_name %in% c("®ç¶é¥«", "·s¦Ë¥«",
-                             "·s¦Ë¿¤", "­]®ß¿¤")) %>%  # city
+    filter(aream_name %in% c("Â®Ã§Â¶Ã©Â¥Â«", "Â·sÂ¦Ã‹Â¥Â«",
+                             "Â·sÂ¦Ã‹Â¿Â¤", "Â­]Â®ÃŸÂ¿Â¤")) %>%  # city
     filter(gender %in% sampleN$TY_XC_ML[["gender"]]) %>%     # gender
     filter(age %in% sampleN$TY_XC_ML[["age"]]) %>%     # age
     sample_N(sampleN$TY_XC_ML$N,
@@ -47,9 +47,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$TY_XC_ML$include_sent,
              show = T)   # Sample N id
   
-  cat("¤¤¹ü§ë:\t")
+  cat("Â¤Â¤Â¹Ã¼Â§Ã«:\t")
   id_TCH_CHW_NT <- panel_id %>%
-    filter(aream_name %in% c("»O¤¤¥«", "¹ü¤Æ¿¤", "«n§ë¿¤")) %>%  # city
+    filter(aream_name %in% c("Â»OÂ¤Â¤Â¥Â«", "Â¹Ã¼Â¤Ã†Â¿Â¤", "Â«nÂ§Ã«Â¿Â¤")) %>%  # city
     filter(gender %in% sampleN$TCH_CHW_NT[["gender"]]) %>%     # gender
     filter(age %in% sampleN$TCH_CHW_NT[["age"]]) %>%   # age
     sample_N(sampleN$TCH_CHW_NT$N,
@@ -58,9 +58,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$TCH_CHW_NT$include_sent,
              show = T)  # Sample N id
   
-  cat("¶³¹Å«n:\t")
+  cat("Â¶Â³Â¹Ã…Â«n:\t")
   id_YL_CHY_TN <- panel_id %>%
-    filter(aream_name %in% c("¶³ªL¿¤", "¹Å¸q¥«", "¹Å¸q¿¤","»O«n¥«")) %>% # city
+    filter(aream_name %in% c("Â¶Â³ÂªLÂ¿Â¤", "Â¹Ã…Â¸qÂ¥Â«", "Â¹Ã…Â¸qÂ¿Â¤","Â»OÂ«nÂ¥Â«")) %>% # city
     filter(gender %in% sampleN$YL_CHY_TN[["gender"]]) %>%    # gender
     filter(age %in% sampleN$YL_CHY_TN[["age"]]) %>%   # age
     sample_N(sampleN$YL_CHY_TN$N,
@@ -69,9 +69,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$YL_CHY_TN$include_sent,
              show = T)    # Sample N id
   
-  cat("°ª«Ì:\t")
+  cat("Â°ÂªÂ«ÃŒ:\t")
   id_KS_PT <- panel_id %>%
-    filter(aream_name %in% c("°ª¶¯¥«", "«ÌªF¿¤")) %>% # city
+    filter(aream_name %in% c("Â°ÂªÂ¶Â¯Â¥Â«", "Â«ÃŒÂªFÂ¿Â¤")) %>% # city
     filter(gender %in% sampleN$KS_PT[["gender"]]) %>%    # gender
     filter(age %in% sampleN$KS_PT[["age"]]) %>%       # age
     sample_N(sampleN$KS_PT$N,
@@ -80,9 +80,9 @@ sampling_outeater <- function (panel_id=panel_id_active, sampleN,
              include_sent = sampleN$KS_PT$include_sent,
              show = T)     # Sample N id
   
-  cat("ªáªF:\t")
+  cat("ÂªÃ¡ÂªF:\t")
   id_HWL_TD <- panel_id %>%
-    filter(aream_name %in% c("ªá½¬¿¤", "»OªF¿¤")) %>% # city
+    filter(aream_name %in% c("ÂªÃ¡Â½Â¬Â¿Â¤", "Â»OÂªFÂ¿Â¤")) %>% # city
     filter(gender %in% sampleN$HWL_TD[["gender"]]) %>%    # gender
     filter(age %in% sampleN$HWL_TD[["age"]]) %>%      # age
     sample_N(sampleN$HWL_TD$N,
