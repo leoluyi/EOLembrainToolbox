@@ -8,14 +8,17 @@ as.strataCrossN <- function(.strataPctList, .namesList, N){
   
   ## error handler
   if (length(.strataPctList) != length(.namesList)) 
-    stop("`strataPctList`和`namesList`長度不一致")
-  if (is.list(.strataPctList) != TRUE) stop(".strataPctList must have class \"list\"")
-  if (is.list(.namesList) != TRUE) stop(".strataPctList must have class \"list\"")
+    stop("`strataPctList`和`namesList`長度不一致", call.=FALSE)
+  if (is.list(.strataPctList) != TRUE) 
+    stop(".strataPctList must have class \"list\"", call.=FALSE)
+  if (is.list(.namesList) != TRUE) 
+    stop(".namesList must have class \"list\"", call.=FALSE)
   
-  for (i in seq_along(strataPctList)){
+  for (i in seq_along(strataPctList)) {
     if (i ==1) {strataCrossArr <- strataPctList[[1]]}
     else {strataCrossArr <- outer(strataCrossArr, strataPctList[[i]])}
   }
+  
   strataCrossArr <- as.array(strataCrossArr)
   dimnames(strataCrossArr) <- .namesList
   
@@ -45,7 +48,7 @@ margin_prop <- function(.strataCrossN_flat,
   strataCrossN.expanded <- strataCrossN.expanded[-length(strataCrossN.expanded)]
   
   Ndim <- length(strataCrossN.expanded)
-  總抽樣本 <- margin.table(table(strataCrossN.expanded)) # Sum total
+  n_total <- margin.table(table(strataCrossN.expanded)) # Sum total
   
   ## 建立list
   mar_tab <- function(x) {
@@ -54,14 +57,14 @@ margin_prop <- function(.strataCrossN_flat,
   
   tab <- function(x) table(x, deparse.level = 0)
   
-  probList <- c(總樣本數 = 總抽樣本, 
+  probList <- c(總樣本數 = n_total, 
                     lapply(strataCrossN.expanded, FUN = mar_tab))
   
   freqList <- lapply(strataCrossN.expanded, FUN = tab)
   print(freqList)
   cat(paste0(rep("-", 40), collapse = ""), "\n")
   
-  ## 實抽樣本寫入txt
+  ## write txt
   
   #cat(.strataCrossN_flat$Freq, file = "實抽樣本vector.txt", sep = "\n")
   if(export) {
@@ -157,9 +160,9 @@ sampleC <- function (.data,
   
   # 防呆
   if (length(.vars) != length(.namesList))
-    stop("length(.vars) must equal to length(.namesList)")
+    stop("length(.vars) must equal to length(.namesList)", call.=FALSE)
   if (is.data.frame(.data) != TRUE) 
-    stop(".data must have class \"data.frame\"")
+    stop(".data must have class \"data.frame\"", call.=FALSE)
   
   ID_var_name <- names(.data)[grep("ID$", names(.data), ignore.case = TRUE)][[1]]
   if(length(ID_var_name)!=0)
@@ -167,7 +170,8 @@ sampleC <- function (.data,
       stop(c("ID有重複: ", "\n",
              paste0(unique(
                .data[[ID_var_name]][duplicated(.data[[ID_var_name]])]), 
-               collapse = "\n")))
+               collapse = "\n")), 
+           call.=FALSE)
     }
   
   
@@ -216,7 +220,7 @@ sampleC <- function (.data,
   n2 <- .strataCrossN_flat[["Freq"]]
   
   # 防呆
-  if (length(n1) != length(n2)) stop("樣本組合與分層數不相等")
+  if (length(n1) != length(n2)) stop("樣本組合與分層數不相等", call.=FALSE)
   
   strataCompare <-
     cbind(.strataCrossN_flat[!(names(.strataCrossN_flat) %in% c("Freq"))], 
@@ -265,7 +269,8 @@ strata.sample.ID <- function (.data, .strataCrossN_flat, .namesList,
   if(anyDuplicated(.data[[ID_var_name]])) {
     stop(c("抽取之ID有重複: ", "\n",
            paste0(.data[[ID_var_name]][duplicated(.data[[ID_var_name]])], 
-                  collapse = "\n")))
+                  collapse = "\n")), 
+         call.=FALSE)
   }
   
   var_names <- names(.namesList)
@@ -447,7 +452,8 @@ write.output.csv <- function(ID_sample, .data, ID_var_name){
   if(anyDuplicated(ID_sample)) {
     stop(c("抽取之ID有重複: ", "\n",
            paste0(ID_sample[duplicated(ID_sample)], 
-                  collapse = "\n")))
+                  collapse = "\n")), 
+         call.=FALSE)
   }
   
   # .data排除重複id
