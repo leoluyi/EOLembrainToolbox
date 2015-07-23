@@ -45,7 +45,7 @@ as.character_OT <- function (.data) {
                          ignore.case = FALSE)
   
   # get temp labels
-  temp_var_label <- get_var_labels(.data[,which_criteria])
+  temp_var_label <- sjmisc::get_var_labels(.data[,which_criteria])
   
   # to character and trim whitespace
   .data[,which_criteria] <- 
@@ -91,13 +91,13 @@ to_factor_RS <- function (.data) {
   #       sjmisc::set_val_labels()
   #   }
   
-    .data[, which_criteria] <- 
-      sapply(.data[, which_criteria], 
-             function(x) {
-               temp_val_label <- sjmisc::get_val_labels(x)
-               x <- sjmisc::to_label(x)
-               x <- sjmisc::set_val_labels(x, temp_val_label)
-             })
+  .data[, which_criteria] <- 
+    sapply(.data[, which_criteria], 
+           function(x) {
+             temp_val_label <- sjmisc::get_val_labels(x)
+             x <- sjmisc::to_label(x)
+             x <- sjmisc::set_val_labels(x, temp_val_label)
+           })
   
   # restore variable lables
   .data[,which_criteria] <- sjmisc::set_var_labels(.data[,which_criteria],
@@ -156,7 +156,7 @@ combine_pipe_table <- function (.data, .var_start, .var_end, .MR_num, .step) {
 
 
 fix_pipe_table <- function (.data, .var_start, .var_end, .MR_num) {
-
+  
   #   .var_start    # 表格起始變數名
   #   .var_end      # 表格末端變數名
   #   .MR_num         # 複選題選項數
@@ -194,5 +194,3 @@ fix_pipe_table <- function (.data, .var_start, .var_end, .MR_num) {
   
   .data
 }
-
-
