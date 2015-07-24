@@ -5,7 +5,7 @@ sample_N <- function(.data, .n, .id_var="Panel_id",
                      show = TRUE) {
   
   if(.n == 0) {
-    if(show == TRUE) cat(paste0("(æ²’æœ‰æŠ½æ¨£)", "\n"))
+    if(show == TRUE) cat(paste0("(¨S¦³©â¼Ë)", "\n"))
     return()
   }
   
@@ -23,17 +23,17 @@ sample_N <- function(.data, .n, .id_var="Panel_id",
   .data <- .data %>% filter_(filter_criteria)
   
   if(nrow(.data) == 0) {
-    if(show == TRUE) cat(paste0("(æ­¤æ¢ä»¶å·²ç„¡æœƒå“¡)", "\n"))
+    if(show == TRUE) cat(paste0("(¦¹±ø¥ó¤wµL·|­û)", "\n"))
     return()
   }
   
-  include_sent_info <- NULL   # åŒ…å«å·²ç™¼é€è¨Šæ¯
-  if(include_sent == TRUE) include_sent_info <- "(å«å·²ç™¼é€)"
+  include_sent_info <- NULL   # ¥]§t¤wµo°e°T®§
+  if(include_sent == TRUE) include_sent_info <- "(§t¤wµo°e)"
   
-  less_info <- NULL   # ç¼ºé¡è¨Šæ¯
+  less_info <- NULL   # ¯ÊÃB°T®§
   if(.n > nrow(.data)) {
     .n <- nrow(.data)
-    less_info <- "(ç¼ºé¡)"
+    less_info <- "(¯ÊÃB)"
   }
   
   sample_id <- .data %>% # exclude id
@@ -42,7 +42,7 @@ sample_N <- function(.data, .n, .id_var="Panel_id",
   
   if(show == TRUE) {
     cat(paste0(scales::comma(length(sample_id)),
-               "\tå€‹IDè¢«æŠ½å‡º",
+               "\t­ÓID³Q©â¥X",
                include_sent_info,
                less_info,
                "\n"))

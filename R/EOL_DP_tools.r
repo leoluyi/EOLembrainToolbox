@@ -1,6 +1,6 @@
 as.numeric_RC <- function (.data) {
   
-  # æœ‰Cã€Ræˆ–Sçš„è®Šæ•¸è½‰æˆæ•¸å­—
+  # ¦³C¡BR©ÎSªºÅÜ¼ÆÂà¦¨¼Æ¦r
   
   is_tbl <- inherits(.data, "tbl")
   
@@ -30,7 +30,7 @@ as.numeric_RC <- function (.data) {
 
 as.character_OT <- function (.data) {
   
-  # æœ‰T, Oçš„è®Šæ•¸è½‰æˆcharacter
+  # ¦³T, OªºÅÜ¼ÆÂà¦¨character
   
   is_tbl <- inherits(.data, "tbl")
   
@@ -68,7 +68,7 @@ as.character_OT <- function (.data) {
 
 to_factor_RS <- function (.data) {
   
-  # æœ‰Ræˆ–Sçš„è®Šæ•¸è½‰æˆfactor
+  # ¦³R©ÎSªºÅÜ¼ÆÂà¦¨factor
   
   is_tbl <- inherits(.data, "tbl")
   
@@ -114,28 +114,28 @@ to_factor_RS <- function (.data) {
 
 combine_pipe_table <- function (.data, .var_start, .var_end, .MR_num, .step) {
   
-  #   .var_start    # è¡¨æ ¼èµ·å§‹è®Šæ•¸å
-  #   .var_end      # è¡¨æ ¼æœ«ç«¯è®Šæ•¸å
-  #   .MR_num         # è¤‡é¸é¡Œé¸é …æ•¸
-  #   .step          # pipingç›¸åŒé¡Œç›®æ•¸
+  #   .var_start    # ªí®æ°_©lÅÜ¼Æ¦W
+  #   .var_end      # ªí®æ¥½ºÝÅÜ¼Æ¦W
+  #   .MR_num         # ½Æ¿ïÃD¿ï¶µ¼Æ
+  #   .step          # piping¬Û¦PÃD¥Ø¼Æ
   
-  # é˜²å‘†
-  if(!(.var_start %in% colnames(.data))) stop(c("æ‰¾ä¸åˆ°è®Šæ•¸: ",.var_start))
-  if(!(.var_end %in% colnames(.data))) stop(c("æ‰¾ä¸åˆ°è®Šæ•¸: ",.var_end))
+  # ¨¾§b
+  if(!(.var_start %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_start))
+  if(!(.var_end %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_end))
   
-  startCol <- match(.var_start, colnames(.data)) # é–‹å§‹æ¬„
-  endCol <- match(.var_end, colnames(.data)) # çµæŸæ¬„
+  startCol <- match(.var_start, colnames(.data)) # ¶}©lÄæ
+  endCol <- match(.var_end, colnames(.data)) # µ²§ôÄæ
   
-  # é˜²å‘†
-  if (startCol >= endCol) stop("é¡Œç›®æŽ’åˆ—é †åºæœ‰èª¤")
+  # ¨¾§b
+  if (startCol >= endCol) stop("ÃD¥Ø±Æ¦C¶¶§Ç¦³»~")
   
   varCountPerMR <- .MR_num * .step
   totalVarCount <- endCol - startCol + 1
   
-  # é˜²å‘†
+  # ¨¾§b
   if (totalVarCount %% varCountPerMR != 0) {
-    stop("é¡Œç›®æŽ’åˆ—æˆ–è¼¸å…¥åƒæ•¸æœ‰èª¤")
-  } else Qcount <- totalVarCount / varCountPerMR # åŽŸå§‹è¡¨æ ¼æœªé‡è¤‡é¡Œç›®æ•¸
+    stop("ÃD¥Ø±Æ¦C©Î¿é¤J°Ñ¼Æ¦³»~")
+  } else Qcount <- totalVarCount / varCountPerMR # ­ì©lªí®æ¥¼­«½ÆÃD¥Ø¼Æ
   
   for (i in seq(1, totalVarCount-varCountPerMR+1, by=varCountPerMR)) {
     NowCol <- startCol + i -1
@@ -145,7 +145,7 @@ combine_pipe_table <- function (.data, .var_start, .var_end, .MR_num, .step) {
           colnames(.data)[NowCol+k],'<<',colnames(.data)[NowCol+k+.MR_num],"\n")
       
       .data[[NowCol+k]] <- 
-        # å¦‚æžœä¸æ˜¯NAå°±å¡«å›žå‰é¢è®Šæ•¸
+        # ¦pªG¤£¬ONA´N¶ñ¦^«e­±ÅÜ¼Æ
         ifelse(!is.na(.data[[NowCol+k+.MR_num]]), 
                .data[[NowCol+k+.MR_num]], .data[[NowCol+k]])
     }
@@ -157,35 +157,35 @@ combine_pipe_table <- function (.data, .var_start, .var_end, .MR_num, .step) {
 
 fix_pipe_table <- function (.data, .var_start, .var_end, .MR_num) {
   
-  #   .var_start    # è¡¨æ ¼èµ·å§‹è®Šæ•¸å
-  #   .var_end      # è¡¨æ ¼æœ«ç«¯è®Šæ•¸å
-  #   .MR_num         # è¤‡é¸é¡Œé¸é …æ•¸
-  #   .step          # pipingç›¸åŒé¡Œç›®æ•¸
+  #   .var_start    # ªí®æ°_©lÅÜ¼Æ¦W
+  #   .var_end      # ªí®æ¥½ºÝÅÜ¼Æ¦W
+  #   .MR_num         # ½Æ¿ïÃD¿ï¶µ¼Æ
+  #   .step          # piping¬Û¦PÃD¥Ø¼Æ
   .step = 1
   
-  # é˜²å‘†
-  if (!(.var_start %in% colnames(.data))) stop(c("æ‰¾ä¸åˆ°è®Šæ•¸: ",.var_start))
-  if (!(.var_end %in% colnames(.data))) stop(c("æ‰¾ä¸åˆ°è®Šæ•¸: ",.var_end))
+  # ¨¾§b
+  if (!(.var_start %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_start))
+  if (!(.var_end %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_end))
   
-  startCol <- match(.var_start, colnames(.data)) # é–‹å§‹æ¬„
-  endCol <- match(.var_end, colnames(.data)) # çµæŸæ¬„
+  startCol <- match(.var_start, colnames(.data)) # ¶}©lÄæ
+  endCol <- match(.var_end, colnames(.data)) # µ²§ôÄæ
   
-  # é˜²å‘†
-  if (startCol >= endCol) stop("é¡Œç›®æŽ’åˆ—é †åºæœ‰èª¤")
+  # ¨¾§b
+  if (startCol >= endCol) stop("ÃD¥Ø±Æ¦C¶¶§Ç¦³»~")
   
   varCountPerMR <- .MR_num * .step
   totalVarCount <- endCol - startCol + 1
   
-  # é˜²å‘†
+  # ¨¾§b
   if (totalVarCount %% varCountPerMR != 0) {
-    stop("é¡Œç›®æŽ’åˆ—æˆ–è¼¸å…¥åƒæ•¸æœ‰èª¤")
-  } else Qcount <- totalVarCount / varCountPerMR # åŽŸå§‹è¡¨æ ¼æœªé‡è¤‡é¡Œç›®æ•¸
+    stop("ÃD¥Ø±Æ¦C©Î¿é¤J°Ñ¼Æ¦³»~")
+  } else Qcount <- totalVarCount / varCountPerMR # ­ì©lªí®æ¥¼­«½ÆÃD¥Ø¼Æ
   
   
   for (i in seq(1, totalVarCount-varCountPerMR+1, by=.MR_num)) {
     NowCol <- startCol + i - 1
     
-    cat("(è¤‡é¸)",
+    cat("(½Æ¿ï)",
         names(.data)[NowCol:(NowCol+.MR_num-1)], "\n")
     
     rows_which_all_zero <- which(rowSums(.data[NowCol:(NowCol+.MR_num-1)]) == 0)
