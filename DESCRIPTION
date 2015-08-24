@@ -8,5 +8,6 @@ Description: EOLembrain Data Manipulation Toolbox
 License: GPL (>=0.3)
 LazyData: TRUE
 Imports: devtools, plyr, dplyr, lazyeval, readr, readxl, stringr, tools, 
-         scales, magrittr, sjmisc, sampling, openxlsx, pipeR
+         scales, magrittr, sjmisc, sampling, openxlsx, pipeR, 
+		 httr, XML
 Depends: R (>= 3.1.2), dplyr
