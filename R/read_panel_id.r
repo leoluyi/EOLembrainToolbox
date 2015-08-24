@@ -7,13 +7,12 @@ read_panel_id <- function(path = "lib_path") {
   if(tolower(tools::file_ext(path)) != "csv") 
     stop("the extention of panel id file must be .csv", call. = FALSE)
   
-  
   ## read original panel file
-  panel <- readr::read_csv(
-    path,
-    col_names = TRUE,
-    col_types = paste0(rep("c", 8), collapse = ""),
-    na = "")
+  panel <- read.csv(con <- file(path, encoding = "UTF-8-BOM"),
+                    fileEncoding="UTF-8",
+                    colClasses = "character",
+                    stringsAsFactors = FALSE) %>% dplyr::as_data_frame()
+  closeAllConnections()
   
   panel[,c(2, 4:length(panel))] <-
     lapply(panel[c(2, 4:length(panel))], as.factor) %>%
