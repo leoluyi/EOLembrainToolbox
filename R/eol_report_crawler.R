@@ -26,7 +26,13 @@ eol_report_crawler <- function (survey_id) {
   result_content <- XML::htmlParse(result_content_text, encoding = "UTF-8")
   # result_table <- xpathSApply(result_content, "//table", xmlValue, encoding = "UTF-8")
 
-  result_table <- dplyr::as_data_frame(XML::readHTMLTable(result_content)[[1]])
+  table_parse_list <- XML::readHTMLTable(result_content)
+  if (length(table_parse_list) == 0) {
+    cat("no result\n")
+    return()
+  }
+  
+  result_table <- dplyr::as_data_frame(table_parse_list[[1]])
 
   names(result_table) <- gsub("\\s", "_",names(result_table))
 
