@@ -1,11 +1,3 @@
-# tools -------------------------------------------------------------------
-
-saveHTML <- function (response, filename='output.html'){
-  f<-file(filename, encoding = "UTF-8")
-  writeLines(result, f)
-  close(f)
-}
-
 # crawler -----------------------------------------------------------------
 
 eol_report_crawler <- function (survey_id) {
@@ -31,7 +23,7 @@ eol_report_crawler <- function (survey_id) {
     cat("no result\n")
     return()
   }
-  
+
   result_table <- dplyr::as_data_frame(table_parse_list[[1]])
 
   names(result_table) <- gsub("\\s", "_",names(result_table))
@@ -40,7 +32,7 @@ eol_report_crawler <- function (survey_id) {
     dplyr::mutate(End_date = stringr::str_extract(End_time,
                                                   "^[0-9]{4}\\/(1[012]|[1-9])\\/[0-9]+")) %>%
     dplyr::mutate(End_time =  stringr::str_extract(End_time,
-                                                   "[¤W¤U]¤È.+$"))
+                                                   "[?W?U]??.+$"))
   result_table
 }
 
