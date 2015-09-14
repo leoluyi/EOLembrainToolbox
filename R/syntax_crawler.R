@@ -31,7 +31,7 @@ syntax_crawler <- function (survey_id) {
   output[[1]] <- gsub("\\s+$", "\n.\n", output[[1]])
 
   dir.create("./syntax_crawler", showWarnings = FALSE)
-  con <- file(sprintf("./syntax_crawler/label_%s.sps", survey_id), encoding = "UTF-8")
+  con <- file(sprintf("./syntax_crawler/1_label_%s.sps", survey_id), encoding = "UTF-8")
   cat(output[[1]], file=con); close(con)
   con <- file(sprintf("./syntax_crawler/variables_%s.txt", survey_id), encoding = "UTF-8")
   cat(output[[2]], file=con); close(con)
