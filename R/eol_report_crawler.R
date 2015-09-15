@@ -34,7 +34,7 @@ eol_report_crawler <- function (survey_id) {
     dplyr::mutate(End_time =  stringr::str_extract(End_time, "[\\u4e0a\\u4e0b]\\u5348.+$"))
   
   result_table <- lapply(result_table, as.character) %>%
-    dplyr::as_data_frame %>%
+    dplyr::as_data_frame(.) %>%
     dplyr::mutate(End_date = as.Date(End_date, "%Y/%m/%e"))
   
   result_table
