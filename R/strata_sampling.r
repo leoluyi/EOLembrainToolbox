@@ -186,7 +186,7 @@ renew_sampleN <- function (.strataCrossN_flat, outputfile="R\u5be6\u62bd\u6a23\u
 # }
 
 
-#' sample C
+#' Compare sample size
 #' @param .data 
 #'
 #' @param .strataCrossN_flat 
@@ -194,7 +194,7 @@ renew_sampleN <- function (.strataCrossN_flat, outputfile="R\u5be6\u62bd\u6a23\u
 #' @param .namesList 
 #' @import dplyr lazyeval
 #' @export
-sampleC <- function (.data,
+compare_sample_size <- function (.data,
                      .strataCrossN_flat,
                      .vars,
                      .namesList) {
