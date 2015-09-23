@@ -1,13 +1,13 @@
 Package: EOLembrainToolbox
 Type: Package
 Title: EOLembrain Data Manipulation Toolbox
-Version: 0.1.2
+Version: 0.1.9000
 Author: Leo Lu
 Maintainer: Leo Lu <leo@eolembrain.com>
 Description: EOLembrain Data Manipulation Toolbox
 License: GPL (>=0.3)
 LazyData: TRUE
 Imports: devtools, plyr, dplyr, lazyeval, readr, readxl, stringr, tools, 
-         scales, magrittr, sjmisc, sampling, openxlsx, pipeR, httr (>= 1.0.0), 
-         XML, xml2, curl
+         scales, magrittr, sjmisc, sampling, openxlsx (>= 3.0.0), 
+         pipeR, httr (>= 1.0.0), XML, xml2, curl
 Depends: R (>= 3.1.2), dplyr

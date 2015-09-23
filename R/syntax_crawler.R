@@ -1,3 +1,10 @@
+#' SPSS syntax crawler
+#' @param survey_id 
+#'
+#' @examples
+#' syntax_crawler(3913)
+#'
+#' @export
 syntax_crawler <- function (survey_id) {
   url <- "http://survey.panelpower.com.tw/isasextension/adm/CreatSyntax.aspx"
 
@@ -36,5 +43,7 @@ syntax_crawler <- function (survey_id) {
   con <- file(sprintf("./syntax_crawler/variables_%s.txt", survey_id), encoding = "UTF-8")
   cat(output[[2]], file=con); close(con)
   cat("getting label finished")
+  
+  invisible()
 }
 

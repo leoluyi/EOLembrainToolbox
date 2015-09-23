@@ -1,3 +1,25 @@
+#' Export fake IDs
+#'
+#' @param ids Real IDs.
+#' @param path .xlsx fake id file path to export.
+#' @param key Either "p" or "j" for fake IDs.
+#' @param .survey_id ISAS survey id.
+#' @param .outurl Survey URL provided by client.
+#' @param .etc1 etc1 column value.
+#'
+#' @import dplyr openxlsx
+#' @return NULL. Generate file at provided path.
+#' 
+#' @examples
+#' \dontrun{
+#' id_output %>>%
+#' ## Export pid
+#' (~ gen_fake_id(., path, .survey_id = survey_id, .outurl = outurl)) %>%
+#' ## Export mail ids
+#'   write_mail_list(mail_path)
+#' }
+
+#' @export
 gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NULL, .etc1=NA) {
   
   if (missing(key)) {
@@ -31,7 +53,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   if (original_file_exists) {
     old_data <- readxl::read_excel(old_file_name, 
                                    col_types = c("numeric",rep("text", 3)))
-    cat("從", normalizePath(old_file_name), "匯入", nrow(old_data), "筆舊pid\n\n")
+    cat("\u5f9e", normalizePath(old_file_name), "\u532f\u5165", nrow(old_data), "\u7b46\u820apid\n\n")
     
     old_fake_id <- stringr::str_extract(old_data$outurl,
                                         "[^=]+$")  # str after last "="
@@ -45,7 +67,7 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
     new_panel_id <- setdiff(ids, old_data$panel_id) # exclude existed panel_id
     
     if (length(new_panel_id)==0) {
-      cat("# `gen_fake_id`: 沒有新panel_id需要上傳pid\n\n")
+      cat("# `gen_fake_id`: \u6c92\u6709\u65b0panel_id\u9700\u8981\u4e0a\u50b3pid\n\n")
       return()
     }
   } else {
@@ -98,13 +120,13 @@ gen_fake_id <- function(ids, path, key=c("p", "j"), .survey_id=NULL, .outurl=NUL
   )
   
   
-  cat("-> pid已匯出至 ", new_file_name, "\n",
-      "共匯出", 
+  cat("-> pid \u5df2\u532f\u51fa\u81f3 ", new_file_name, "\n",
+      "\u5171\u532f\u51fa", 
       if (original_file_exists) 
-        length(old_data$panel_id), "筆舊pid，",
-      n_new_panel_id, "筆新pid，",
-      "檔案中共包含", length(df$panel_id), "筆id\n",
-      "(請用excel'另存'成.xls檔 =>「外部調查連結匯入」=> 上傳pid)\n\n")
+        length(old_data$panel_id), "\u7b46\u820apid, ",
+      n_new_panel_id, "\u7b46\u65b0pid, ",
+      "\u6a94\u6848\u4e2d\u5171\u5305\u542b", length(df$panel_id), "\u7b46id\n",
+      "(\u8acb\u7528excel\'\u53e6\u5b58\'\u6210.xls\u6a94 =>\u300c\u5916\u90e8\u8abf\u67e5\u9023\u7d50\u532f\u5165\u300d=> \u4e0a\u50b3pid)\n\n")
   
   
   if (file.exists(new_file_name) & original_file_exists) {

@@ -1,6 +1,12 @@
-as.numeric_RC <- function (.data) {
+#' ISAS data manipulation tools
+#'
+#' @param .data ISAS data.
+#' @import dplyr
+
+#' @export
+as_numeric_RC <- function (.data) {
   
-  # ¦³C¡BR©ÎSªºÅÜ¼ÆÂà¦¨¼Æ¦r
+  # æœ‰Cã€Ræˆ–Sçš„è®Šæ•¸è½‰æˆæ•¸å­—
   
   is_tbl <- inherits(.data, "tbl")
   
@@ -28,9 +34,10 @@ as.numeric_RC <- function (.data) {
 }
 
 
-as.character_OT <- function (.data) {
+#' @export
+as_character_OT <- function (.data) {
   
-  # ¦³T, OªºÅÜ¼ÆÂà¦¨character
+  # æœ‰T, Oçš„è®Šæ•¸è½‰æˆcharacter
   
   is_tbl <- inherits(.data, "tbl")
   
@@ -65,10 +72,10 @@ as.character_OT <- function (.data) {
 }
 
 
-
+#' @export
 to_factor_RS <- function (.data) {
   
-  # ¦³R©ÎSªºÅÜ¼ÆÂà¦¨factor
+  # æœ‰Ræˆ–Sçš„è®Šæ•¸è½‰æˆfactor
   
   is_tbl <- inherits(.data, "tbl")
   
@@ -112,30 +119,41 @@ to_factor_RS <- function (.data) {
 }
 
 
+
+#' Combine same choices from ISAS "table + piping + multiple choice"
+#'
+#' @param .data 
+#' @param .var_start 
+#' @param .var_end 
+#' @param .MR_num 
+#' @param .step 
+#'
+#' @export
+#'
 combine_pipe_table <- function (.data, .var_start, .var_end, .MR_num, .step) {
   
-  #   .var_start    # ªí®æ°_©lÅÜ¼Æ¦W
-  #   .var_end      # ªí®æ¥½ºÝÅÜ¼Æ¦W
-  #   .MR_num         # ½Æ¿ïÃD¿ï¶µ¼Æ
-  #   .step          # piping¬Û¦PÃD¥Ø¼Æ
+  #   .var_start    # è¡¨æ ¼èµ·å§‹è®Šæ•¸å
+  #   .var_end      # è¡¨æ ¼æœ«ç«¯è®Šæ•¸å
+  #   .MR_num         # è¤‡é¸é¡Œé¸é …æ•¸
+  #   .step          # pipingç›¸åŒé¡Œç›®æ•¸
   
-  # ¨¾§b
-  if(!(.var_start %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_start))
-  if(!(.var_end %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_end))
+  # é˜²å‘†
+  if(!(.var_start %in% colnames(.data))) stop(c("\u627e\u4e0d\u5230\u8b8a\u6578: ",.var_start))
+  if(!(.var_end %in% colnames(.data))) stop(c("\u627e\u4e0d\u5230\u8b8a\u6578: ",.var_end))
   
-  startCol <- match(.var_start, colnames(.data)) # ¶}©lÄæ
-  endCol <- match(.var_end, colnames(.data)) # µ²§ôÄæ
+  startCol <- match(.var_start, colnames(.data)) # é–‹å§‹æ¬„
+  endCol <- match(.var_end, colnames(.data)) # çµæŸæ¬„
   
-  # ¨¾§b
-  if (startCol >= endCol) stop("ÃD¥Ø±Æ¦C¶¶§Ç¦³»~")
+  # é˜²å‘†
+  if (startCol >= endCol) stop("\u984c\u76ee\u6392\u5217\u9806\u5e8f\u6709\u8aa4")
   
   varCountPerMR <- .MR_num * .step
   totalVarCount <- endCol - startCol + 1
   
-  # ¨¾§b
+  # é˜²å‘†
   if (totalVarCount %% varCountPerMR != 0) {
-    stop("ÃD¥Ø±Æ¦C©Î¿é¤J°Ñ¼Æ¦³»~")
-  } else Qcount <- totalVarCount / varCountPerMR # ­ì©lªí®æ¥¼­«½ÆÃD¥Ø¼Æ
+    stop("\u984c\u76ee\u6392\u5217\u6216\u8f38\u5165\u53c3\u6578\u6709\u8aa4")
+  } else Qcount <- totalVarCount / varCountPerMR # åŽŸå§‹è¡¨æ ¼æœªé‡è¤‡é¡Œç›®æ•¸
   
   for (i in seq(1, totalVarCount-varCountPerMR+1, by=varCountPerMR)) {
     NowCol <- startCol + i -1
@@ -145,7 +163,7 @@ combine_pipe_table <- function (.data, .var_start, .var_end, .MR_num, .step) {
           colnames(.data)[NowCol+k],'<<',colnames(.data)[NowCol+k+.MR_num],"\n")
       
       .data[[NowCol+k]] <- 
-        # ¦pªG¤£¬ONA´N¶ñ¦^«e­±ÅÜ¼Æ
+        # å¦‚æžœä¸æ˜¯NAå°±å¡«å›žå‰é¢è®Šæ•¸
         ifelse(!is.na(.data[[NowCol+k+.MR_num]]), 
                .data[[NowCol+k+.MR_num]], .data[[NowCol+k]])
     }
@@ -155,37 +173,45 @@ combine_pipe_table <- function (.data, .var_start, .var_end, .MR_num, .step) {
 }
 
 
+# fix_pipe_table ----------------------------------------------------------
+#' 
+#' Fix ISAS table + piping + multiple choice 
+#' @param .data Data frame to fix.
+#' @param .var_start Variable name of table start.
+#' @param .var_end Variable name of table end.
+#' @param .MR_num Number of multiple choices in each question.
+#'
+#' @export
 fix_pipe_table <- function (.data, .var_start, .var_end, .MR_num) {
   
-  #   .var_start    # ªí®æ°_©lÅÜ¼Æ¦W
-  #   .var_end      # ªí®æ¥½ºÝÅÜ¼Æ¦W
-  #   .MR_num         # ½Æ¿ïÃD¿ï¶µ¼Æ
-  #   .step          # piping¬Û¦PÃD¥Ø¼Æ
-  .step = 1
+  #   .var_start    # è¡¨æ ¼èµ·å§‹è®Šæ•¸å
+  #   .var_end      # è¡¨æ ¼æœ«ç«¯è®Šæ•¸å
+  #   .MR_num        # è¤‡é¸é¡Œé¸é …æ•¸
+  .step = 1  # pipingç›¸åŒé¡Œç›®æ•¸
   
-  # ¨¾§b
-  if (!(.var_start %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_start))
-  if (!(.var_end %in% colnames(.data))) stop(c("§ä¤£¨ìÅÜ¼Æ: ",.var_end))
+  # é˜²å‘†
+  if (!(.var_start %in% colnames(.data))) stop(c("\u627e\u4e0d\u5230\u8b8a\u6578: ",.var_start))
+  if (!(.var_end %in% colnames(.data))) stop(c("\u627e\u4e0d\u5230\u8b8a\u6578: ",.var_end))
   
-  startCol <- match(.var_start, colnames(.data)) # ¶}©lÄæ
-  endCol <- match(.var_end, colnames(.data)) # µ²§ôÄæ
+  startCol <- match(.var_start, colnames(.data)) # é–‹å§‹æ¬„
+  endCol <- match(.var_end, colnames(.data)) # çµæŸæ¬„
   
-  # ¨¾§b
-  if (startCol >= endCol) stop("ÃD¥Ø±Æ¦C¶¶§Ç¦³»~")
+  # é˜²å‘†
+  if (startCol >= endCol) stop("\u984c\u76ee\u6392\u5217\u9806\u5e8f\u6709\u8aa4")
   
   varCountPerMR <- .MR_num * .step
   totalVarCount <- endCol - startCol + 1
   
-  # ¨¾§b
+  # é˜²å‘†
   if (totalVarCount %% varCountPerMR != 0) {
-    stop("ÃD¥Ø±Æ¦C©Î¿é¤J°Ñ¼Æ¦³»~")
-  } else Qcount <- totalVarCount / varCountPerMR # ­ì©lªí®æ¥¼­«½ÆÃD¥Ø¼Æ
+    stop("\u984c\u76ee\u6392\u5217\u6216\u8f38\u5165\u53c3\u6578\u6709\u8aa4")
+  } else Qcount <- totalVarCount / varCountPerMR # åŽŸå§‹è¡¨æ ¼æœªé‡è¤‡é¡Œç›®æ•¸
   
   
   for (i in seq(1, totalVarCount-varCountPerMR+1, by=.MR_num)) {
     NowCol <- startCol + i - 1
     
-    cat("(½Æ¿ï)",
+    cat("(\u8907\u9078)",
         names(.data)[NowCol:(NowCol+.MR_num-1)], "\n")
     
     rows_which_all_zero <- which(rowSums(.data[NowCol:(NowCol+.MR_num-1)]) == 0)

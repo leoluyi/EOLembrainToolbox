@@ -1,6 +1,27 @@
-# forked from hadley/recode.R
-# https://gist.github.com/hadley/2751ba61d1c7f4eaacab
+#' Recode variables 
+#' 
+#' @param df A data.frame object
+#' @param ... Comma separated list of unquoted expressions. See examples.
+#' @param match Variables matching  sequence. "first" or "last"
+#' @examples
+#' recode_to(mtcars,
+#'   mpg < 20 ~ "a",
+#'   vs == 1  ~ "b"
+#' )
+#' recode_to(mtcars,
+#'   mpg < 20 ~ "a",
+#'   vs == 1  ~ "b",
+#'            ~ "c"
+#' )
+#' recode_to(mtcars,
+#'   mpg < 20 ~ mpg,
+#'            ~ mpg + 100
+#' )
+#' @references 
+#' forked from hadley/recode.R
+#' https://gist.github.com/hadley/2751ba61d1c7f4eaacab
 
+#' @export
 recode_to <- function(df, ..., match = c("first", "last")) {
   
   match <- match.arg(match)
@@ -55,19 +76,4 @@ print.case <- function(x, ...) {
   cat(" env:  ",  format(x$env), "\n", sep = "")
 }
 
-# Examples ---------------------------------------------------------------------
-# 
-# recode_to(mtcars,
-#   mpg < 20 ~ "a",
-#   vs == 1  ~ "b"
-# )
-# recode_to(mtcars,
-#   mpg < 20 ~ "a",
-#   vs == 1  ~ "b",
-#            ~ "c"
-# )
-# recode_to(mtcars,
-#   mpg < 20 ~ mpg,
-#            ~ mpg + 100
-# )
-# 
+

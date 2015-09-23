@@ -1,10 +1,22 @@
-read_panel_id <- function(path = "lib_path") {
+#' Read panel IDs
+#'
+#' @param path Either "lib_path" for built-in data, or "update" to update first.
+#' 
+#' @import dplyr
+#' @return \code{tbl_df} object of panel data
+#' 
+#' @export
+read_panel_id <- function(path = c("lib_path", "update")) {
   
-  if(path == "lib_path") 
+  path <- match.arg(path)
+  
+  if (path == "update") EOLembrainToolbox::panel_id_crawler() # update data
+  
+  if (path == "lib_path") 
     path <- system.file("extdata/panel_data.csv", package = "EOLembrainToolbox")
   
   # check extension: csv
-  if(tolower(tools::file_ext(path)) != "csv") 
+  if (tolower(tools::file_ext(path)) != "csv") 
     stop("the extention of panel id file must be .csv", call. = FALSE)
   
   ## read original panel file
@@ -32,33 +44,33 @@ read_panel_id <- function(path = "lib_path") {
   
   levels(panel$aream_name) <-
     list(
-      "基隆市" = "基隆市",
-      "臺北市" = "臺北市",
-      "新北市" = "新北市",
-      "桃園市" = "桃園縣",
-      "新竹縣" = "新竹縣",
-      "新竹市" = "新竹市",
-      "苗栗縣" = "苗栗縣",
-      "臺中市" = "臺中市(原臺中市)",
-      "臺中市" = "臺中市(原臺中縣)",
-      "彰化縣" = "彰化縣",
-      "南投縣" = "南投縣",
-      "雲林縣" = "雲林縣",
-      "嘉義縣" = "嘉義縣",
-      "嘉義市" = "嘉義市",
-      "臺南市" = "臺南市(原臺南市)",
-      "臺南市" = "臺南市(原臺南縣)",
-      "高雄市" = "高雄市(原高雄縣)",
-      "高雄市" = "高雄市(原高雄市)",
-      "屏東縣" = "屏東縣",
-      "宜蘭縣" = "宜蘭縣",
-      "花蓮縣" = "花蓮縣",
-      "臺東縣" = "臺東縣",
-      "澎湖縣" = "澎湖縣",
-      "金門縣" = "金門縣",
-      "連江縣" = "連江縣",
-      "南海諸島" = "南海諸島",
-      "釣魚臺列嶼" = "釣魚臺列嶼")
+      "\u57fa\u9686\u5e02" = "\u57fa\u9686\u5e02",
+      "\u81fa\u5317\u5e02" = "\u81fa\u5317\u5e02",
+      "\u65b0\u5317\u5e02" = "\u65b0\u5317\u5e02",
+      "\u6843\u5712\u5e02" = "\u6843\u5712\u7e23",
+      "\u65b0\u7af9\u7e23" = "\u65b0\u7af9\u7e23",
+      "\u65b0\u7af9\u5e02" = "\u65b0\u7af9\u5e02",
+      "\u82d7\u6817\u7e23" = "\u82d7\u6817\u7e23",
+      "\u81fa\u4e2d\u5e02" = "\u81fa\u4e2d\u5e02(\u539f\u81fa\u4e2d\u5e02)",
+      "\u81fa\u4e2d\u5e02" = "\u81fa\u4e2d\u5e02(\u539f\u81fa\u4e2d\u7e23)",
+      "\u5f70\u5316\u7e23" = "\u5f70\u5316\u7e23",
+      "\u5357\u6295\u7e23" = "\u5357\u6295\u7e23",
+      "\u96f2\u6797\u7e23" = "\u96f2\u6797\u7e23",
+      "\u5609\u7fa9\u7e23" = "\u5609\u7fa9\u7e23",
+      "\u5609\u7fa9\u5e02" = "\u5609\u7fa9\u5e02",
+      "\u81fa\u5357\u5e02" = "\u81fa\u5357\u5e02(\u539f\u81fa\u5357\u5e02)",
+      "\u81fa\u5357\u5e02" = "\u81fa\u5357\u5e02(\u539f\u81fa\u5357\u7e23)",
+      "\u9ad8\u96c4\u5e02" = "\u9ad8\u96c4\u5e02(\u539f\u9ad8\u96c4\u7e23)",
+      "\u9ad8\u96c4\u5e02" = "\u9ad8\u96c4\u5e02(\u539f\u9ad8\u96c4\u5e02)",
+      "\u5c4f\u6771\u7e23" = "\u5c4f\u6771\u7e23",
+      "\u5b9c\u862d\u7e23" = "\u5b9c\u862d\u7e23",
+      "\u82b1\u84ee\u7e23" = "\u82b1\u84ee\u7e23",
+      "\u81fa\u6771\u7e23" = "\u81fa\u6771\u7e23",
+      "\u6f8e\u6e56\u7e23" = "\u6f8e\u6e56\u7e23",
+      "\u91d1\u9580\u7e23" = "\u91d1\u9580\u7e23",
+      "\u9023\u6c5f\u7e23" = "\u9023\u6c5f\u7e23",
+      "\u5357\u6d77\u8af8\u5cf6" = "\u5357\u6d77\u8af8\u5cf6",
+      "\u91e3\u9b5a\u81fa\u5217\u5dbc" = "\u91e3\u9b5a\u81fa\u5217\u5dbc")
   
   panel <- panel %>%
     dplyr::mutate(aream = as.numeric(aream_name))

@@ -1,5 +1,15 @@
-# crawler -----------------------------------------------------------------
-
+#' Get Panel Supply IDs report
+#'
+#' @param survey_id ISAS survey id.
+#'
+#' @return a \code{tbl_df} object
+#' @import dplyr
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' eol_report_crawler(3896)
+#' }
 eol_report_crawler <- function (survey_id) {
   url <- "http://survey.panelpower.com.tw/isasextension/adm/report.aspx"
 
