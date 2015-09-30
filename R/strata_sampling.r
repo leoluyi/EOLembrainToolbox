@@ -432,17 +432,25 @@ write_output_xlsx <- function(ID_sample, .data, ID_var_name){
   # ID_var_name: ID所在變數名
   # ID_sample: 要抽取的ID
   
+  # .data排除重複id
+  .data <- .data %>% distinct_(ID_var_name)
+  
   # 防呆
   if(anyDuplicated(ID_sample)) {
     stop(c("\u62bd\u53d6\u4e4bID\u6709\u91cd\u8907: ", "\n",
            paste0(ID_sample[duplicated(ID_sample)],
-                  collapse = "\n")))
+                  collapse = "\n")),
+         call. = FALSE)
+  }
+  missing_id <- setdiff(ID_sample, .data[[ID_var_name]])
+  if(!identical(length(missing_id), 0L)) {
+    stop(c("there are missing IDs: ", "\n",
+           paste0(missing_id, collapse = "\n")),
+         call. = FALSE)
   }
   
-  # .data排除重複id
-  .data <- .data %>% distinct_(ID_var_name)
   
-  tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
+  tempData <- .data[which(.data[[ID_var_name]] %in% ID_sample),]
   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
   
   outputfileName <- paste(tools::file_path_sans_ext(fileName),
@@ -482,16 +490,22 @@ write_output_csv <- function(ID_sample, .data, ID_var_name){
   # ID_var_name: ID所在變數名
   # ID_sample: 要抽取的ID
   
+  # .data排除重複id
+  .data <- .data %>% distinct_(ID_var_name)
+  
   # 防呆
   if(anyDuplicated(ID_sample)) {
     stop(c("\u62bd\u53d6\u4e4bID\u6709\u91cd\u8907: ", "\n",
            paste0(ID_sample[duplicated(ID_sample)],
                   collapse = "\n")),
-         call.=FALSE)
+         call. = FALSE)
   }
-  
-  # .data排除重複id
-  .data <- .data %>% distinct_(ID_var_name)
+  missing_id <- setdiff(ID_sample, .data[[ID_var_name]])
+  if(!identical(length(missing_id), 0L)) {
+    stop(c("there are missing IDs: ", "\n",
+           paste0(missing_id, collapse = "\n")),
+         call. = FALSE)
+  }
   
   tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
