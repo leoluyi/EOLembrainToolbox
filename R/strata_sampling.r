@@ -202,8 +202,6 @@ compare_sample_size <- function (.data,
   ## 防呆
   if (!identical(setdiff(names(.vars), names(.namesList)), character(0)))
     stop("names of `.vars` and `.namesList` must be identical", call.=FALSE)
-  if(!identical(setdiff(names(.strataPctList), names(.namesList)), character(0)))
-    stop("names of `strataPctList` and `namesList` must be identical", call.=FALSE)
   if(!identical(setdiff(names(.strataCrossN_flat)[names(.strataCrossN_flat)!="Freq"],
                         names(.namesList)), character(0)))
     stop("names of `.strataCrossN_flat` and `namesList` must be identical", call.=FALSE)
