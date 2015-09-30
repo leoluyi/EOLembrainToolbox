@@ -450,7 +450,8 @@ write_output_xlsx <- function(ID_sample, .data, ID_var_name){
   }
   
   
-  tempData <- .data[which(.data[[ID_var_name]] %in% ID_sample),]
+  tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
+  tempData <- tempData[order(match(tempData[[ID_var_name]], ID_sample))] # reorder by ID_sample
   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
   
   outputfileName <- paste(tools::file_path_sans_ext(fileName),
@@ -508,6 +509,7 @@ write_output_csv <- function(ID_sample, .data, ID_var_name){
   }
   
   tempData <- .data[.data[[ID_var_name]] %in% ID_sample,]
+  tempData <- tempData[order(match(tempData[[ID_var_name]], ID_sample))] # reorder by ID_sample
   tempData_backup <- .data[!(.data[[ID_var_name]] %in% ID_sample),]
   
   outputfileName <- paste(tools::file_path_sans_ext(fileName),
