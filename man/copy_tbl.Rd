@@ -22,10 +22,11 @@ and back again.
 # These all work
 copy_tbl(1:100)
 copy_tbl(letters)
-copy_tbl(my.df)
-copy_tbl(table(my.df$col1))
+copy_tbl(iris)
+copy_tbl(table(iris$Species))
 copy_tbl(matrix(1:20, nrow = 2))
 
+\dontrun{
 # If my.df is of moderate size
 copy_tbl(my.df)
 
@@ -36,6 +37,7 @@ copy_tbl(my.df, 10000)
 # (including the header) and press Ctrl+C. Then run
 
 other.df <- paste_tbl()
+}
 }
 \references{
 Using the Windows Clipboard, or Passing Data Quickly From Excel to R and Back Again

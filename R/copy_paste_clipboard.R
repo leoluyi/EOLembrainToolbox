@@ -19,10 +19,11 @@
 #' # These all work
 #' copy_tbl(1:100)
 #' copy_tbl(letters)
-#' copy_tbl(my.df)
-#' copy_tbl(table(my.df$col1))
+#' copy_tbl(iris)
+#' copy_tbl(table(iris$Species))
 #' copy_tbl(matrix(1:20, nrow = 2))
 #'
+#' \dontrun{
 #' # If my.df is of moderate size
 #' copy_tbl(my.df)
 #'
@@ -33,6 +34,7 @@
 #' # (including the header) and press Ctrl+C. Then run
 #'
 #' other.df <- paste_tbl()
+#' }
 #' 
 copy_tbl <- function(obj, size = 4096) {
   sn <- Sys.info()["sysname"]
