@@ -1,7 +1,8 @@
 #' panel id crawler
 #' 
+#' save .csv file to system.file("extdata/panel_data.csv", package = "EOLembrainToolbox")
+#' 
 #' @import dplyr httr XML
-#' @return tbl_df object of panel data
 #'
 panel_id_crawler <- function () {
   url <- "http://survey.panelpower.com.tw/isasextension/adm/panelid_query.aspx"
