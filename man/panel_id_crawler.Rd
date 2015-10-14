@@ -6,10 +6,7 @@
 \usage{
 panel_id_crawler()
 }
-\value{
-tbl_df object of panel data
-}
 \description{
-panel id crawler
+save .csv file to system.file("extdata/panel_data.csv", package = "EOLembrainToolbox")
 }
 
