@@ -1,6 +1,6 @@
-#' read_ids
+#' Read IDs from single txt file path, or txt files in directory
 #'
-#' @param path File path, or directory 
+#' @param path txt file path, or directory contains txt files
 #'
 #' @return character vector.
 #'

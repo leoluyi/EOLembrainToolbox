@@ -2,17 +2,17 @@
 % Please edit documentation in R/read_ids.r
 \name{read_ids}
 \alias{read_ids}
-\title{read_ids}
+\title{Read IDs from single txt file path, or txt files in directory}
 \usage{
 read_ids(path)
 }
 \arguments{
-\item{path}{File path, or directory}
+\item{path}{txt file path, or directory contains txt files}
 }
 \value{
 character vector.
 }
 \description{
-read_ids
+Read IDs from single txt file path, or txt files in directory
 }
 
