@@ -5,7 +5,7 @@
 \title{Check marginal proportion}
 \usage{
 margin_prop(.strataCrossN_flat, export = FALSE,
-  outputfile = "R實抽樣本temp.csv")
+  outputfile = "R<U+00B9><ea><U+00A9><e2><U+00BC><U+02E5><U+00BB>temp.csv")
 }
 \arguments{
 \item{.strataCrossN_flat}{}
