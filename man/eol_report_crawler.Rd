@@ -17,7 +17,29 @@ Get Panel Supply IDs report
 }
 \examples{
 \dontrun{
-eol_report_crawler(3896)
+library(dplyr)
+
+# settings ----------------------------------------------------------------
+
+survey_id <- 4026
+n_test <- 6   # test ids
+
+# count -------------------------------------------------------------------
+
+result_table <- eol_report_crawler(survey_id) \%>\%
+    slice(-c(1:n_test))
+
+tail(result_table, 10)
+table(result_table$Result)
+
+
+# export to xlsx ----------------------------------------------------------
+
+xlsx::write.xlsx(as.data.frame(result_table, stringsAsFactors=FALSE),
+                 file=sprintf("final_id_\%s.xlsx", survey_id),
+                 sheetName="ISAS", row.names=FALSE, append=FALSE)
+
+
 }
 }
 
