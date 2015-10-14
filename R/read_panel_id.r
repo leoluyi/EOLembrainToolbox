@@ -10,10 +10,9 @@ read_panel_id <- function(path = c("lib_path", "update")) {
   
   path <- match.arg(path)
   
-  if (path == "update") EOLembrainToolbox::panel_id_crawler() # update data
+  if (path == "update") EOLembrainToolbox:::panel_id_crawler() # update data
   
-  if (path == "lib_path") 
-    path <- system.file("extdata/panel_data.csv", package = "EOLembrainToolbox")
+  path <- system.file("extdata/panel_data.csv", package = "EOLembrainToolbox")
   
   # check extension: csv
   if (tolower(tools::file_ext(path)) != "csv") 
