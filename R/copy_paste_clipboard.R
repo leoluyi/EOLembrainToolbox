@@ -58,6 +58,7 @@ copy_tbl <- function(obj, size = 4096) {
 #' @export
 # Paste data into R
 paste_tbl <- function() {
+  sn <- Sys.info()["sysname"]
   if (sn == "Darwin") {
     f <- pipe("pbpaste")
     df <- read.table(f, sep = '\t', header = TRUE)
