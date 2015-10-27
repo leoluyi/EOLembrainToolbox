@@ -21,6 +21,8 @@ recode_to(mtcars,
   mpg < 20 ~ "a",
   vs == 1  ~ "b"
 )
+
+## empty lhs for "else" condition
 recode_to(mtcars,
   mpg < 20 ~ "a",
   vs == 1  ~ "b",
