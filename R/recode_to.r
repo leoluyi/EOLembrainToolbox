@@ -57,8 +57,13 @@ case <- function(expr, val, env) {
   structure(list(expr = expr, val = val, env = env), class = "case")
 }
 
+#' @export
 as.case <- function(x) UseMethod("as.case")
+
+#' @export
 as.case.case <- function(x) x
+
+#' @export
 as.case.formula <- function(x) {
   if (length(x) == 3) {
     case(x[[2]], x[[3]], environment(x))
@@ -69,6 +74,7 @@ as.case.formula <- function(x) {
   }
 }
 
+#' @export
 print.case <- function(x, ...) {
   cat("<case>\n")
   cat(" expr: ", deparse(x$expr), "\n", sep = "")
