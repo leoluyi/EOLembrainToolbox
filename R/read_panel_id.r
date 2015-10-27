@@ -1,25 +1,26 @@
 #' Read panel IDs
 #'
-#' @param path Either "lib_path" for built-in data, or "update" to update first.
+#' @param path Either "lib_path" for built-in data, or csv file path.
+#' @param update \code{TRUE} to update built-in data first
 #' 
 #' @import dplyr
 #' @return \code{tbl_df} object of panel data
 #' 
 #' @export
-read_panel_id <- function(path = c("lib_path", "update")) {
+read_panel_id <- function(file = "lib_path", update=FALSE) {
   
-  path <- match.arg(path)
+  if (update) EOLembrainToolbox:::panel_id_crawler(); # update data
+  if (file == "lib_path" || update)
+    file <- system.file("extdata/panel_data.csv", package = "EOLembrainToolbox");
   
-  if (path == "update") EOLembrainToolbox:::panel_id_crawler() # update data
-  
-  path <- system.file("extdata/panel_data.csv", package = "EOLembrainToolbox")
-  
-  # check extension: csv
-  if (tolower(tools::file_ext(path)) != "csv") 
-    stop("the extention of panel id file must be .csv", call. = FALSE)
+  ## check file path
+  EOLembrainToolbox:::check_file(file)
+  ## check extension: csv
+  if (tolower(tools::file_ext(file)) != "csv") 
+    stop("the extention of panel id file must be .csv", call. = FALSE);
   
   ## read original panel file
-  panel <- read.csv(con <- file(path, encoding = "UTF-8-BOM"),
+  panel <- read.csv(con <- file(file, encoding = "UTF-8-BOM"),
                     fileEncoding="UTF-8",
                     colClasses = "character",
                     stringsAsFactors = FALSE) %>% dplyr::as_data_frame()

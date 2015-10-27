@@ -4,10 +4,12 @@
 \alias{read_panel_id}
 \title{Read panel IDs}
 \usage{
-read_panel_id(path = c("lib_path", "update"))
+read_panel_id(file = "lib_path", update = FALSE)
 }
 \arguments{
-\item{path}{Either "lib_path" for built-in data, or "update" to update first.}
+\item{update}{\code{TRUE} to update built-in data first}
+
+\item{path}{Either "lib_path" for built-in data, or csv file path.}
 }
 \value{
 \code{tbl_df} object of panel data
