@@ -3,11 +3,11 @@
 \name{copy_tbl}
 \alias{copy_tbl}
 \alias{paste_tbl}
-\title{Copy Data out of or Paste data into R}
+\title{Copy/Paste data out of/into R}
 \usage{
 copy_tbl(obj, size = 4096)
 
-paste_tbl()
+paste_tbl(header = TRUE)
 }
 \arguments{
 \item{obj}{object to copy}

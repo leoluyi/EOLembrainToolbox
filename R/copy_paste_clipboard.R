@@ -1,4 +1,4 @@
-#' Copy Data out of or Paste data into R
+#' Copy/Paste data out of/into R
 #' 
 #' Using the clipboard, or passing data quickly from Excel to R 
 #' and back again.
@@ -57,16 +57,16 @@ copy_tbl <- function(obj, size = 4096) {
 #' @rdname copy_tbl
 #' @export
 # Paste data into R
-paste_tbl <- function() {
+paste_tbl <- function(header = TRUE) {
   sn <- Sys.info()["sysname"]
   if (sn == "Darwin") {
     f <- pipe("pbpaste")
-    df <- read.table(f, sep = '\t', header = TRUE)
+    df <- read.table(f, sep = '\t', header = header, stringsAsFactors = FALSE)
     close(f)
     return(df)
   } else if (sn == "Windows") {
     f <- file(description = 'clipboard', open = 'r')
-    df <- read.table(f, sep = '\t', header = TRUE)
+    df <- read.table(f, sep = '\t', header = header, stringsAsFactors = FALSE)
     close(f)
     return(df)
   } else {
