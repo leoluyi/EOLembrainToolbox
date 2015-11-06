@@ -18,8 +18,9 @@ write_mail_list <- function(ids, file_name) {
   new_file_name <- gsub(".txt$", paste0("_", Sys.Date(), ".txt", collapse=""), file_name)
   write.table(ids, file = new_file_name, quote=F, row.names=F, col.names=F)
   
-  cat(sprintf("-> (\u5171\u8a08 %s \u500bID) mail list \u5df2\u532f\u51fa\u81f3", 
-              ids_length), 
+  cat("-> (\u5171\u8a08",
+      ids_length,
+      "\u500bID) mail list \u5df2\u532f\u51fa\u81f3", 
       new_file_name, 
       "\n\n")
   
