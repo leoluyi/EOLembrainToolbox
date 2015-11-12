@@ -7,15 +7,15 @@
 combine_pipe_table(.data, .var_start, .var_end, .MR_num, .step)
 }
 \arguments{
-\item{.data}{}
+\item{.data}{Data.}
 
-\item{.var_start}{}
+\item{.var_start}{Dariable name of table start.}
 
-\item{.var_end}{}
+\item{.var_end}{Variable name of table end.}
 
-\item{.MR_num}{}
+\item{.MR_num}{Number of items in a multiple response question.}
 
-\item{.step}{}
+\item{.step}{Number of duplicated questions in a question set.}
 }
 \description{
 Combine same choices from ISAS "table + piping + multiple choice"
