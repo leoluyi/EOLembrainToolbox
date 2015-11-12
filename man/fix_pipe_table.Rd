@@ -13,7 +13,7 @@ fix_pipe_table(.data, .var_start, .var_end, .MR_num)
 
 \item{.var_end}{Variable name of table end.}
 
-\item{.MR_num}{Number of multiple choices in each question.}
+\item{.MR_num}{Number of items in a multiple response question.}
 }
 \description{
 Fix ISAS table + piping + multiple choice
