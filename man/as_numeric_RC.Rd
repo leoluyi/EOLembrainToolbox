@@ -4,10 +4,10 @@
 \alias{as_numeric_RC}
 \title{ISAS data manipulation tools}
 \usage{
-as_numeric_RC(.data)
+as_numeric_RC(data)
 }
 \arguments{
-\item{.data}{ISAS data.}
+\item{data}{ISAS data.}
 }
 \description{
 ISAS data manipulation tools
