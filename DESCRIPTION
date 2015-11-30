@@ -7,7 +7,26 @@ Maintainer: Leo Lu <leo@eolembrain.com>
 Description: EOLembrain Data Manipulation Toolbox
 License: GPL (>=0.3)
 LazyData: TRUE
-Imports: devtools, plyr, dplyr, lazyeval, readr, readxl, stringr, tools, 
-         scales, magrittr, sjmisc, sampling, openxlsx (>= 3.0.0), 
-         pipeR, httr (>= 1.0.0), XML, xml2, curl
-Depends: R (>= 3.1.2), dplyr
+Imports:
+    devtools,
+    plyr,
+    dplyr,
+    lazyeval,
+    readr,
+    readxl,
+    stringr,
+    tools,
+    scales,
+    magrittr,
+    sjmisc (>= 1.3),
+    sampling,
+    openxlsx (>= 3.0.0),
+    pipeR,
+    httr (>= 1.0.0),
+    XML,
+    xml2,
+    curl
+Depends:
+    R (>= 3.1.2),
+    dplyr
+RoxygenNote: 5.0.1
