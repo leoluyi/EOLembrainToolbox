@@ -27,6 +27,6 @@ Imports:
     xml2,
     curl
 Depends:
-    R (>= 3.1.2),
+    R (>= 3.2.2),
     dplyr
 RoxygenNote: 5.0.1
