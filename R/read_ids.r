@@ -1,53 +1,67 @@
 #' Read IDs from single txt file path, or txt files in directory
 #'
-#' @param path txt file path, or directory contains txt files
+#' @param path txt file path, or directory contains txt files.
+#' @param show_path Only work for dir path.
 #'
 #' @return character vector.
 #'
 
 #' @export
-read_ids <- function(path) {
-  
+read_ids <- function(path, show_path = FALSE) {
   path <- check_dir_file(path)
   
   switch(path_format(path),
          txt =  read_ids_txt(path),
-         dir_path = read_ids_path(path)
-  )
-  
+         dir_path = read_ids_path(path, show_path))
 }
 
 read_ids_txt <- function(path) {
+  file_path <- normalizePath(path,
+                             winslash = "/",
+                             mustWork = TRUE)
+  
   ids <- readLines(path, skipNul = TRUE)
   ids <- unname(unlist(ids))
   ids
 }
 
-read_ids_path <- function(path) {
-  file_path <- list.files(path = path, 
-                          pattern = "\\.txt$",
-                          recursive = TRUE,
-                          include.dirs = FALSE,
-                          full.names = TRUE)  # list of file path
+read_ids_path <- function(path, pattern = ".*") {
+  file_path <- list.files(
+    path = path,
+    pattern = "\\.txt$",
+    recursive = TRUE,
+    include.dirs = FALSE,
+    full.names = TRUE
+  )  # list of file path
   
-  ids <- plyr::llply(file_path, readLines,skipNul = TRUE)
-  ids <- unname(unlist(ids))
-  ids
+  path_dir <- dirname(file_path)
+  path_file <- grep(pattern, basename(file_path), value = TRUE)
+  
+  file_path <- normalizePath(file.path(path_dir, path_file),
+                             winslash = "/",
+                             mustWork = TRUE)
+  
+  if (show_path) {
+    cat("read files from:", file_path, "\n", sep = "\n")
+  }
+  
+  ids <- plyr::llply(file_path, readLines, skipNul = TRUE)
+  ids <- unlist(ids, use.names = FALSE)
+  invisible(ids)
 }
 
 
 # Helper functions -------------------------------------------------------------
 
-path_format <- function(path){
+path_format <- function (path) {
   ext <- tolower(tools::file_ext(path))
-  if (ext == "" & is_dir(path)) ext <- "dir_path"
+  if (ext == "" && is_dir(path))
+    ext <- "dir_path"
   
-  switch(ext,
-         txt = "txt",
-         dir_path = "dir_path",
-         stop("Unknown format .", ext, call. = FALSE)
-  )
+  switch (ext,
+          txt = "txt",
+          dir_path = "dir_path",
+          stop ("Unknown format .", ext, call. = FALSE))
 }
-
 
 

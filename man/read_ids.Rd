@@ -4,10 +4,12 @@
 \alias{read_ids}
 \title{Read IDs from single txt file path, or txt files in directory}
 \usage{
-read_ids(path)
+read_ids(path, show_path = FALSE)
 }
 \arguments{
-\item{path}{txt file path, or directory contains txt files}
+\item{path}{txt file path, or directory contains txt files.}
+
+\item{show_path}{Only work for dir path.}
 }
 \value{
 character vector.
