@@ -4,18 +4,25 @@
 \alias{combine_pipe_table}
 \title{Combine same choices from ISAS "table + piping + multiple choice"}
 \usage{
-combine_pipe_table(.data, .var_start, .var_end, .MR_num, .step)
+combine_pipe_table(df, var_start, var_end, mr_C_max, steps, rep_place = c("q",
+  "c"))
 }
 \arguments{
-\item{.data}{Data.}
+\item{df}{Data.}
 
-\item{.var_start}{Dariable name of table start.}
+\item{var_start}{Dariable name of table start.}
 
-\item{.var_end}{Variable name of table end.}
+\item{var_end}{Variable name of table end.}
 
-\item{.MR_num}{Number of items in a multiple response question.}
+\item{mr_C_max}{Number of items in a multiple response question, excludes repeated.}
 
-\item{.step}{Number of duplicated questions in a question set.}
+\item{steps}{Number of duplicated questions in a questionset.}
+
+\item{rep_place}{Where the repeated items locate.
+"q" for question; "c" for choices}
+}
+\value{
+data.frame result
 }
 \description{
 Combine same choices from ISAS "table + piping + multiple choice"

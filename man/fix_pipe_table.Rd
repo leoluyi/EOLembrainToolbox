@@ -4,16 +4,16 @@
 \alias{fix_pipe_table}
 \title{Fix ISAS table + piping + multiple choice}
 \usage{
-fix_pipe_table(.data, .var_start, .var_end, .MR_num)
+fix_pipe_table(df, var_start, var_end, mr_C_max)
 }
 \arguments{
-\item{.data}{Data frame to fix.}
+\item{df}{Data frame to fix.}
 
-\item{.var_start}{Variable name of table start.}
+\item{var_start}{Variable name of table start.}
 
-\item{.var_end}{Variable name of table end.}
+\item{var_end}{Variable name of table end.}
 
-\item{.MR_num}{Number of items in a multiple response question.}
+\item{mr_C_max}{Number of items in a multiple response question.}
 }
 \description{
 Fix ISAS table + piping + multiple choice
