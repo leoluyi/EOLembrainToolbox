@@ -187,7 +187,7 @@ combine_pipe_table_q <- function (df,
     Qcount <- totalVarCount / varCountPerMR # 原始表格未重複題目數
   
   
-  col_to_rm <- NULL# reserve space
+  col_to_rm <- NULL # reserve space
   for (i in seq(1, totalVarCount - varCountPerMR + 1, by = varCountPerMR)) {
     NowCol <- startCol + i - 1
     
@@ -197,7 +197,7 @@ combine_pipe_table_q <- function (df,
           colnames(df)[NowCol + j],
           '<<')
       for (k in 1:(steps-1)) {
-        cat(colnames(df)[NowCol + j + k*mr_C_max])
+        cat(colnames(df)[NowCol + j + k*mr_C_max], " ")
         # if not NA, overwrite previous var
         df[[NowCol + j]] <-
           ifelse(!is.na(df[[NowCol + j + k*mr_C_max]]),
@@ -236,7 +236,7 @@ combine_pipe_table_c <- function (df,
       call. = F
     )
   } else
-    Qcount <- totalVarCount / varCountPerMR # 原始表格未重複題目數
+    Qcount <- totalVarCount / varCountPerMR # 原始題目數
   
   for (i in seq(1, totalVarCount - varCountPerMR + 1, by = varCountPerMR)) {
     NowCol <- startCol + i - 1
