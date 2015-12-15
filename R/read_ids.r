@@ -1,18 +1,20 @@
 #' Read IDs from single txt file path, or txt files in directory
 #'
 #' @param path txt file path, or directory contains txt files.
-#' @param show_path Only work for dir path.
+#' @param pattern Character string containing a regular expression 
+#'        to be matched in the given character vector. Only work for dir path.
+#' @param show_path Print file path or not. Only work for dir path.
 #'
 #' @return character vector.
 #'
 
 #' @export
-read_ids <- function(path, show_path = FALSE) {
+read_ids <- function(path, pattern = ".*", show_path = FALSE) {
   path <- check_dir_file(path)
   
   switch(path_format(path),
          txt =  read_ids_txt(path),
-         dir_path = read_ids_path(path, show_path))
+         dir_path = read_ids_path(path, pattern, show_path))
 }
 
 read_ids_txt <- function(path) {
@@ -25,7 +27,7 @@ read_ids_txt <- function(path) {
   ids
 }
 
-read_ids_path <- function(path, pattern = ".*") {
+read_ids_path <- function(path, pattern, show_path) {
   file_path <- list.files(
     path = path,
     pattern = "\\.txt$",

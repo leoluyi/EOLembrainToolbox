@@ -4,12 +4,15 @@
 \alias{read_ids}
 \title{Read IDs from single txt file path, or txt files in directory}
 \usage{
-read_ids(path, show_path = FALSE)
+read_ids(path, pattern = ".*", show_path = FALSE)
 }
 \arguments{
 \item{path}{txt file path, or directory contains txt files.}
 
-\item{show_path}{Only work for dir path.}
+\item{pattern}{Character string containing a regular expression 
+to be matched in the given character vector. Only work for dir path.}
+
+\item{show_path}{Print file path or not. Only work for dir path.}
 }
 \value{
 character vector.
