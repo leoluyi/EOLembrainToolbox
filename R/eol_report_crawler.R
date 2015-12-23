@@ -75,6 +75,7 @@ report_crawler <- function (survey_id) {
 #' @export
 eol_report_crawler <- function (survey_id) 
 {
-  report_crawler(survey_id)
-  warning("eol_report_crawler was deprecated. Please use report_crawler() instead.")
+  warning("eol_report_crawler was deprecated. Please use report_crawler() instead.",
+          call. = FALSE)
+  return(report_crawler(survey_id))
 }
