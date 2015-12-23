@@ -8,12 +8,6 @@ compare_sample_size(.data, .strataCrossN_flat, .vars, .namesList)
 }
 \arguments{
 \item{.data}{}
-
-\item{.strataCrossN_flat}{}
-
-\item{.vars}{}
-
-\item{.namesList}{}
 }
 \description{
 Compare sample size

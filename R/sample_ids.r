@@ -49,20 +49,20 @@ sample_N <- function(.data, .n, .id_var="Panel_id",
   
   if(nrow(.data) == 0) {
     if(show == TRUE) cat(paste0("(\u6b64\u689d\u4ef6\u5df2\u7121\u6703\u54e1)", "\n"))
-    return()
+    return(invisible())
   }
   
-  include_sent_info <- NULL   # 包含已發送訊息
+  include_sent_info <- NULL   # message: 包含已發送
   if(include_sent == TRUE) include_sent_info <- "(\u542b\u5df2\u767c\u9001)"
   
-  less_info <- NULL   # 缺額訊息
+  less_info <- NULL   # message: 缺額
   if(.n > nrow(.data)) {
     .n <- nrow(.data)
     less_info <- "(\u7f3a\u984d)"
   }
   
   sample_id <- .data %>% # exclude id
-    dplyr::sample_n(size = .n, replace = FALSE) %>%
+    dplyr::sample_n(., size = .n, replace = FALSE) %>%
     dplyr::select_(.id_var) %>% unlist %>% unname
   
   if(show == TRUE) {

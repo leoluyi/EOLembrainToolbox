@@ -9,18 +9,6 @@ strata_ids(.data, .strataCrossN_flat, .namesList, .vars,
   "systematic"), pik = NULL)
 }
 \arguments{
-\item{.data}{}
-
-\item{.strataCrossN_flat}{}
-
-\item{.namesList}{}
-
-\item{.vars}{}
-
-\item{ID_var_name}{}
-
-\item{method}{}
-
 \item{pik}{}
 }
 \description{

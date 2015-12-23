@@ -4,12 +4,10 @@
 \alias{write_output_csv}
 \title{write_output_csv}
 \usage{
-write_output_csv(ID_sample, .data, ID_var_name)
+write_output_csv(ID_sample, df, ID_var_name)
 }
 \arguments{
-\item{ID_sample}{}
-
-\item{.data}{}
+\item{ID_sample}{Character vector of IDs.}
 
 \item{ID_var_name}{}
 }

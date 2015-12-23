@@ -32,7 +32,7 @@
 #' 
 #' 
 #' }
-eol_report_crawler <- function (survey_id) {
+report_crawler <- function (survey_id) {
   url <- "http://survey.panelpower.com.tw/isasextension/adm/report.aspx"
 
   form_data <- list(
@@ -72,4 +72,8 @@ eol_report_crawler <- function (survey_id) {
   result_table
 }
 
-
+eol_report_crawler <- function (survey_id) 
+{
+  report_crawler(survey_id)
+  warning("eol_report_crawler was deprecated. Please use report_crawler() instead.")
+}

@@ -7,10 +7,6 @@
 write_output_xlsx(ID_sample, .data, ID_var_name)
 }
 \arguments{
-\item{ID_sample}{}
-
-\item{.data}{}
-
 \item{ID_var_name}{}
 }
 \description{

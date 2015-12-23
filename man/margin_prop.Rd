@@ -10,8 +10,6 @@ margin_prop(.strataCrossN_flat, export = FALSE,
 \arguments{
 \item{.strataCrossN_flat}{}
 
-\item{export}{}
-
 \item{outputfile}{}
 }
 \description{
