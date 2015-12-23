@@ -72,6 +72,7 @@ report_crawler <- function (survey_id) {
   result_table
 }
 
+#' @export
 eol_report_crawler <- function (survey_id) 
 {
   report_crawler(survey_id)
