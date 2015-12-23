@@ -9,7 +9,7 @@ read_ids(path, pattern = ".*", show_path = FALSE)
 \arguments{
 \item{path}{txt file path, or directory contains txt files.}
 
-\item{pattern}{Character string containing a regular expression 
+\item{pattern}{Character string containing a regular expression
 to be matched in the given character vector. Only work for dir path.}
 
 \item{show_path}{Print file path or not. Only work for dir path.}
