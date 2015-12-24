@@ -24,8 +24,13 @@ as_numeric_RC <- function (df) {
     grep("^Q.+(C|R|S)", names(df), ignore.case = FALSE)
   
   df[, which_criteria] <-
-    sapply(df[, which_criteria], function(x)
-      as.integer(sjmisc::to_value(x)))
+    sapply(df[, which_criteria], function(x) {
+      if (is.factor(x)) {
+        as.integer(sjmisc::to_value(x))
+      }
+      else
+        as.numeric(as.character(x))
+    })
   
   if (!is.data.frame(df)) {
     df <- dplyr::as_data_frame(df)
