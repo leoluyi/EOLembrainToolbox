@@ -10,13 +10,13 @@ combine_pipe_table(df, var_start, var_end, mr_C_max, steps, rep_place = c("q",
 \arguments{
 \item{df}{Data.}
 
-\item{var_start}{Dariable name of table start.}
+\item{var_start}{Variable name of table start.}
 
 \item{var_end}{Variable name of table end.}
 
-\item{mr_C_max}{Number of items in a multiple response question, excludes repeated.}
+\item{mr_C_max}{Number of items in a multiple response question, including repeated.}
 
-\item{steps}{Number of duplicated questions in a questionset.}
+\item{steps}{Number of duplicated questions in a question set.}
 
 \item{rep_place}{Where the repeated items locate.
 "q" for question; "c" for choices}

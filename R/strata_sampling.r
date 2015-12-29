@@ -467,10 +467,11 @@ strata_ids <- function (.data,
 #' @param ID_sample
 #' @param .data
 #' @param ID_var_name
+#' @param fileName
 #'
 #' @import openxlsx
 #' @export
-write_output_xlsx <- function(ID_sample, .data, ID_var_name) {
+write_output_xlsx <- function(ID_sample, .data, ID_var_name, fileName) {
   # ID_var_name: ID所在變數名
   # ID_sample: 要抽取的ID
   

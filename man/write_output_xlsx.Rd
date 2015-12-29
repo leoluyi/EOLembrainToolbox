@@ -4,10 +4,10 @@
 \alias{write_output_xlsx}
 \title{write output xlsx}
 \usage{
-write_output_xlsx(ID_sample, .data, ID_var_name)
+write_output_xlsx(ID_sample, .data, ID_var_name, fileName)
 }
 \arguments{
-\item{ID_var_name}{}
+\item{fileName}{}
 }
 \description{
 write output xlsx

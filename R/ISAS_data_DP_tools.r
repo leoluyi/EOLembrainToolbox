@@ -1,10 +1,10 @@
 #' Combine same choices from ISAS "table + piping + multiple choice"
 #'
 #' @param df Data.
-#' @param var_start Dariable name of table start.
+#' @param var_start Variable name of table start.
 #' @param var_end Variable name of table end.
-#' @param mr_C_max Number of items in a multiple response question, excludes repeated.
-#' @param steps Number of duplicated questions in a questionset.
+#' @param mr_C_max Number of items in a multiple response question, including repeated.
+#' @param steps Number of duplicated questions in a question set.
 #' @param rep_place Where the repeated items locate.
 #'            "q" for question; "c" for choices
 #'
@@ -19,10 +19,6 @@ combine_pipe_table <- function (df,
                                 mr_C_max,
                                 steps,
                                 rep_place = c("q", "c")) {
-  #   var_start    # 表格起始變數名
-  #   var_end      # 表格末端變數名
-  #   mr_C_max         # 複選題選項數
-  #   steps         # piping同題目數
   rep_place <- match.arg(rep_place)
   
   # 防呆
@@ -44,12 +40,12 @@ combine_pipe_table_q <- function (df,
                                   var_end,
                                   mr_C_max,
                                   steps) {
-  
   # 防呆
   startCol <- match(var_start, colnames(df)) # 開始欄
   endCol <- match(var_end, colnames(df)) # 結束欄
   if (startCol >= endCol)
-    stop("\u984c\u76ee\u6392\u5217\u9806\u5e8f\u6709\u8aa4", call. = F)
+    stop("\u984c\u76ee\u6392\u5217\u9806\u5e8f\u6709\u8aa4",
+         call. = F)
   
   varCountPerMR <- mr_C_max * steps
   totalVarCount <- endCol - startCol + 1
@@ -70,22 +66,25 @@ combine_pipe_table_q <- function (df,
       cat(i %/% varCountPerMR + 1,
           ":",
           colnames(df)[NowCol + j],
-          '<<')
-      for (k in 1:(steps-1)) {
-        cat(colnames(df)[NowCol + j + k*mr_C_max], " ")
+          "<< ")
+      for (k in 1:(steps - 1)) {
+        cat(colnames(df)[NowCol + j + k * mr_C_max], " ")
         # if not NA, overwrite previous var
         df[[NowCol + j]] <-
-          ifelse(!is.na(df[[NowCol + j + k*mr_C_max]]),
-                 df[[NowCol + j + k*mr_C_max]], df[[NowCol + j]])
-        col_to_rm <- c(col_to_rm, colnames(df[,NowCol + j + k*mr_C_max]))
+          ifelse(!is.na(df[[NowCol + j + k * mr_C_max]] & df[[NowCol + j + k]] != 0),
+                 df[[NowCol + j + k * mr_C_max]], df[[NowCol + j]])
+        col_to_rm <-
+          c(col_to_rm, colnames(df)[[NowCol + j + k * mr_C_max]])
       }
       cat("\n")
     }
   }
   
   # remove redundant column
-  df <- df[, !names(df) %in% col_to_rm]
-  cat("deleted variables: \n", paste0(col_to_rm, collapse = "\n"), "\n")
+  df <- df[,!names(df) %in% col_to_rm]
+  cat("deleted variables:\n",
+      paste0(col_to_rm, collapse = ", "),
+      "\n\n")
   
   df
 }
@@ -95,15 +94,16 @@ combine_pipe_table_c <- function (df,
                                   var_end,
                                   mr_C_max,
                                   steps) {
-
   # 防呆
   startCol <- match(var_start, colnames(df)) # 開始欄
   endCol <- match(var_end, colnames(df)) # 結束欄
   if (startCol >= endCol)
-    stop("\u984c\u76ee\u6392\u5217\u9806\u5e8f\u6709\u8aa4", call. = F)
+    stop("\u984c\u76ee\u6392\u5217\u9806\u5e8f\u6709\u8aa4",
+         call. = F)
   
   varCountPerMR <- mr_C_max
   totalVarCount <- endCol - startCol + 1
+  var_end_new <- colnames(df)[[endCol - steps + 1]]
   
   if (totalVarCount %% varCountPerMR != 0) {
     stop(
@@ -113,23 +113,35 @@ combine_pipe_table_c <- function (df,
   } else
     Qcount <- totalVarCount / varCountPerMR # 原始題目數
   
+  col_to_rm <- NULL # reserve space
   for (i in seq(1, totalVarCount - varCountPerMR + 1, by = varCountPerMR)) {
     NowCol <- startCol + i - 1
     
-    for (k in seq(0, (mr_C_max - 1), by = steps)) {
+    for (j in seq(0, varCountPerMR - steps, by = steps)) {
       cat(i %/% varCountPerMR + 1,
           ":",
-          colnames(df)[NowCol + k],
-          '<<',
-          colnames(df)[NowCol + k + steps],
-          "\n")
-      
-      df[[NowCol + k]] <-
+          colnames(df)[NowCol + j],
+          "<< ")
+      for (k in seq(1, steps - 1)) {
+        cat(colnames(df)[NowCol + j + k], " ")
         # if not NA, overwrite previous var
-        ifelse(!is.na(df[[NowCol + k + steps]]),
-               df[[NowCol + k + steps]], df[[NowCol + k]])
+        df[[NowCol + j]] <-
+          ifelse(!is.na(df[[NowCol + j + k]] & df[[NowCol + j + k]] != 0),
+                 df[[NowCol + j + k]], df[[NowCol + j]])
+        col_to_rm <-
+          c(col_to_rm, colnames(df)[[NowCol + j + k]])
+      }
+      cat("\n")
     }
   }
+  # remove redundant column
+  df <- df[,!names(df) %in% col_to_rm]
+  cat("deleted variables:\n",
+      paste0(col_to_rm, collapse = ", "),
+      "\n\n")
+  
+  ## fix pipe table
+  df <- fix_pipe_table(df, var_start, var_end_new, varCountPerMR/steps)
   
   df
 }
@@ -148,7 +160,6 @@ fix_pipe_table <- function (df, var_start, var_end, mr_C_max) {
   #   var_start    # 表格起始變數名
   #   var_end      # 表格末端變數名
   #   mr_C_max        # 複選題選項數
-  steps = 1  # piping同題目數
   
   # 防呆
   if (!(var_start %in% colnames(df)))
@@ -163,7 +174,7 @@ fix_pipe_table <- function (df, var_start, var_end, mr_C_max) {
   if (startCol >= endCol)
     stop("\u984c\u76ee\u6392\u5217\u9806\u5e8f\u6709\u8aa4")
   
-  varCountPerMR <- mr_C_max * steps
+  varCountPerMR <- mr_C_max
   totalVarCount <- endCol - startCol + 1
   
   # 防呆
@@ -179,7 +190,7 @@ fix_pipe_table <- function (df, var_start, var_end, mr_C_max) {
   for (i in seq(1, totalVarCount - varCountPerMR + 1, by = mr_C_max)) {
     NowCol <- startCol + i - 1
     
-    cat("(\u8907\u9078)",
+    cat(">> (\u8907\u9078)",
         names(df)[NowCol:(NowCol + mr_C_max - 1)], "\n")
     
     rows_which_all_zero <-
