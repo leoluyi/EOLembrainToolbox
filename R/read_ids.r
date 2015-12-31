@@ -36,10 +36,10 @@ read_ids_path <- function(path, pattern, show_path) {
     full.names = TRUE
   )  # list of file path
 
-  path_dir <- path
-  path_file <- grep(pattern, basename(file_path), value = TRUE)
+  
+  is_path_file <- grepl(pattern, basename(file_path))
 
-  file_path <- normalizePath(file.path(path_dir, path_file),
+  file_path <- normalizePath(file_path[is_path_file],
                              winslash = "/",
                              mustWork = TRUE)
 
