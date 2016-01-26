@@ -8,7 +8,6 @@ Description: EOLembrain Data Manipulation Toolbox
 License: GPL (>=0.3)
 LazyData: TRUE
 Imports:
-    devtools,
     plyr,
     dplyr,
     lazyeval,
@@ -25,7 +24,6 @@ Imports:
     httr (>= 1.0.0),
     XML,
     xml2,
-    curl
 Depends:
     R (>= 3.2.2),
     dplyr
