@@ -8,12 +8,6 @@ sampling_outeater(panel_id = panel_id_active, sampleN, sent_id = NULL,
   finished_id = NULL)
 }
 \arguments{
-\item{panel_id}{}
-
-\item{sampleN}{}
-
-\item{sent_id}{}
-
 \item{finished_id}{}
 }
 \value{
