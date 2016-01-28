@@ -74,11 +74,12 @@ read_panel_id <- function(file = "lib_path", update=FALSE) {
   
   panel <- panel %>%
     dplyr::mutate(aream = as.numeric(aream_name)) %>%
-    mutate(area_NCSE = 
+    dplyr::mutate(area_NCSE = 
              ifelse(aream %in% c(1:6, 17), "N",
                     ifelse(aream %in% c(7:10,18) , "C",
                            ifelse(aream %in% c(12:16,19), "S", "E"))),
-           area_NCSE = factor(area_NCSE, levels = c("N", "C", "S", "E")))
+           area_NCSE = factor(area_NCSE, levels = c("N", "C", "S", "E"))) %>% 
+    dplyr::rename_(.dots = setNames("Panel_id", "Panel_ID"))
   
   panel
 }

@@ -42,6 +42,7 @@ report_crawler <- function (survey_id) {
     `TextBox1` = as.character(survey_id)
   )
 
+  cat("(crawling answering report...)", "\n")
   result <- httr::POST(url,
                      body = form_data,
                      encode = "form")
@@ -69,6 +70,7 @@ report_crawler <- function (survey_id) {
     dplyr::as_data_frame(.) %>%
     dplyr::mutate(End_date = as.Date(End_date, "%Y/%m/%e"))
   
+  cat(sprintf("(survey_id: %s) getting crawler result finished.", survey_id), "\n")
   result_table
 }
 

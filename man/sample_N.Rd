@@ -4,7 +4,7 @@
 \alias{sample_N}
 \title{Sampling from panel data}
 \usage{
-sample_N(df, .n, .id_var = "Panel_id", sent_id = NULL, finished_id = NULL,
+sample_N(df, .n, .id_var = "Panel_ID", sent_id = NULL, finished_id = NULL,
   include_sent = FALSE, show = TRUE)
 }
 \arguments{
@@ -12,7 +12,7 @@ sample_N(df, .n, .id_var = "Panel_id", sent_id = NULL, finished_id = NULL,
 
 \item{.n}{Number of samples to be extracted}
 
-\item{.id_var}{Default "Panel_id".}
+\item{.id_var}{Default "Panel_ID".}
 
 \item{sent_id}{}
 

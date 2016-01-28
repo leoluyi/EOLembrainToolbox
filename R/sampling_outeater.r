@@ -30,7 +30,8 @@
 sampling_outeater <- function (panel_id=panel_id_active, sampleN,
                                sent_id = NULL,
                                finished_id = NULL) {
-
+  finished_id = finished_id # for crawler
+  
   cat("\u53f0\u5317:\t")
   id_TP <- panel_id %>%
     filter(aream_name %in% c("\u81fa\u5317\u5e02")) %>%           # city
