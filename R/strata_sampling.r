@@ -271,7 +271,8 @@ compare_sample_size <- function (.data,
     arrange_(.dots = rev(names(.strataCrossN_flat)[-length(.strataCrossN_flat)]))
   
   # 樣本分佈
-  sampleCross_flat <- table(.data[.vars[var_names]]) %>% # (Q1R..為excel檔表頭變數名)
+  sampleCross_flat <- table(.data[.vars[var_names]], 
+                            dnn=.vars[var_names]) %>% # (Q1R..為excel檔表頭變數名)
     as.data.frame.table()
   
   # sampleCross_flat 排序
