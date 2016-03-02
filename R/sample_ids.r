@@ -31,7 +31,7 @@ sample_N <- function(df, .n, .id_var="Panel_ID",
   
   if(.n == 0) {
     if(show == TRUE) cat(paste0("(\u6c92\u6709\u62bd\u6a23)", "\n"))
-    return()
+    return(invisible(NULL))
   }
   
   if(length(finished_id) == 0 & include_sent == TRUE)
@@ -49,7 +49,7 @@ sample_N <- function(df, .n, .id_var="Panel_ID",
   
   if(nrow(df) == 0) {
     if(show == TRUE) cat(paste0("(\u6b64\u689d\u4ef6\u5df2\u7121\u6703\u54e1)", "\n"))
-    return(invisible(df))
+    return(invisible(NULL))
   }
   
   include_sent_info <- NULL   # message: 包含已發送
