@@ -38,7 +38,7 @@ V <- function(addC = TRUE) {
          sn, ") in this package.")
   }
   
-  characterVector <- scan(f, what = "character")
+  characterVector <- scan(f, what = "character", sep = "\n")
   close(f)
   
   # Format string ready for inclusion in c(...).
