@@ -26,10 +26,22 @@ V <- function(addC = TRUE) {
   # Step 1: paste a column of variable names from a meta database;
   # Step 2: Run this function in R: V()
   # Step 3: Press control + V: Paste vector of clipboard
-  characterVector <- scan("clipboard", what = "character")
+  
+  sn <- Sys.info()["sysname"]
+  if (sn == "Darwin") {
+    f <- pipe("pbpaste")
+  } else if (sn == "Windows") {
+    f <- file(description = 'clipboard', open = 'r')
+  } else {
+    stop("Reading from the clipboard is not implemented for your system (",
+         sn, ") in this package.")
+  }
+  
+  characterVector <- scan(f, what = "character")
+  close(f)
   
   # Format string ready for inclusion in c(...).
-  formattedString <-    paste(characterVector , collapse="\", \"")
+  formattedString <- paste(characterVector , collapse="\", \"")
   formattedString <- paste("\"", formattedString, "\"", sep="")
   if (addC) formattedString <- paste("c(", formattedString , ")", sep = "")
   writeLines(formattedString, con = "clipboard-128", sep = " ")
@@ -43,7 +55,19 @@ V_tab <- function(addC = TRUE) {
   # Step 1: paste a column of variable names from a meta database;
   # Step 2: Run this function in R: V_tab()
   # Step 3: Press control + V: Paste vector of clipboard
+  
+  sn <- Sys.info()["sysname"]
+  if (sn == "Darwin") {
+    f <- pipe("pbpaste")
+  } else if (sn == "Windows") {
+    f <- file(description = 'clipboard', open = 'r')
+  } else {
+    stop("Reading from the clipboard is not implemented for your system (",
+         sn, ") in this package.")
+  }
+  
   characterVector <- scan("clipboard", what = "character", sep="\t")
+  close(f)
   
   # Format string ready for inclusion in c(...).
   formattedString <-    paste(characterVector , collapse="\", \"")

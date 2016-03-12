@@ -39,19 +39,17 @@
 copy_tbl <- function(obj, size = 4096) {
   sn <- Sys.info()["sysname"]
   if (sn == "Darwin") {
-    clip <- paste('clipboard-', size, sep = '')
     f <- pipe("pbcopy", "w")
-    write.table(obj, f, row.names = FALSE, sep = '\t')
-    close(f)
   } else if (sn == "Windows") {
     clip <- paste('clipboard-', size, sep = '')
     f <- file(description = clip, open = 'w')
-    write.table(obj, f, row.names = FALSE, sep = '\t')
-    close(f)
   } else {
     stop("Reading from the clipboard is not implemented for your system (",
          sn, ") in this package.")
   }
+  
+  write.table(obj, f, row.names = FALSE, sep = '\t')
+  close(f)
 }
 
 #' @rdname copy_tbl
@@ -61,18 +59,16 @@ paste_tbl <- function(header = TRUE) {
   sn <- Sys.info()["sysname"]
   if (sn == "Darwin") {
     f <- pipe("pbpaste")
-    df <- read.table(f, sep = '\t', header = header, stringsAsFactors = FALSE)
-    close(f)
-    return(df)
   } else if (sn == "Windows") {
     f <- file(description = 'clipboard', open = 'r')
-    df <- read.table(f, sep = '\t', header = header, stringsAsFactors = FALSE)
-    close(f)
-    return(df)
   } else {
     stop("Reading from the clipboard is not implemented for your system (",
          sn, ") in this package.")
   }
+  
+  df <- read.table(f, sep = '\t', header = header, stringsAsFactors = FALSE)
+  close(f)
+  df
 }
 
 
