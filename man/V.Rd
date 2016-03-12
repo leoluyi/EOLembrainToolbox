@@ -30,6 +30,7 @@ Paste character string from clipboard into R
 
 }
 \seealso{
-see \url{http://www.r-bloggers.com/efficient-variable-selection-in-r/}
+see
+\url{http://www.r-bloggers.com/efficient-variable-selection-in-r/}
 }
 

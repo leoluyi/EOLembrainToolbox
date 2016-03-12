@@ -10,7 +10,8 @@
 #' \code{V_tab}() for tab seperated string vector
 #' 
 #' @seealso
-#' see \url{http://www.r-bloggers.com/efficient-variable-selection-in-r/}
+#' see
+#' \url{http://www.r-bloggers.com/efficient-variable-selection-in-r/}
 #' 
 #' @examples
 #' ## Typical application:
@@ -44,7 +45,17 @@ V <- function(addC = TRUE) {
   formattedString <- paste(characterVector , collapse="\", \"")
   formattedString <- paste("\"", formattedString, "\"", sep="")
   if (addC) formattedString <- paste("c(", formattedString , ")", sep = "")
-  writeLines(formattedString, con = "clipboard-128", sep = " ")
+  
+  if (sn == "Darwin") {
+    pcon <-  pipe("pbcopy", "w")
+    # text <- paste(scan(pcon, what="character", quiet=TRUE), collapse=" ")
+  } else if (sn == "Windows") {
+    pcon <- file(description = "clipboard-128", open = 'w')
+  }
+
+  writeLines(formattedString, con = pcon, sep = " ")
+  close(pcon)
+  return(invisible())
 }
 
 #' @rdname V
@@ -73,5 +84,16 @@ V_tab <- function(addC = TRUE) {
   formattedString <-    paste(characterVector , collapse="\", \"")
   formattedString <- paste("\"", formattedString, "\"", sep="")
   if (addC) formattedString <- paste("c(", formattedString , ")", sep = "")
-  writeLines(formattedString, con = "clipboard-128", sep = " ")
+  
+  # write to clipboard
+  if (sn == "Darwin") {
+    pcon <-  pipe("pbcopy", "w")
+    # text <- paste(scan(pcon, what="character", quiet=TRUE), collapse=" ")
+  } else if (sn == "Windows") {
+    pcon <- file(description = "clipboard-128", open = 'w')
+  }
+  
+  writeLines(formattedString, con = pcon, sep = " ")
+  close(pcon)
+  return(invisible())
 }
